@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "488552846630",
+    "project_id": "tamwenweb",
+    "storage_bucket": "tamwenweb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488552846630:android:a7d89d18c60f6ae9d99de7",
+        "android_client_info": {
+          "package_name": "com.example.tamwen_web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488552846630-ceuaddgc0altqca0vfn209cgccmb8v0o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBGNlcZnOWzbZxXshNYsuNQJN498C962s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488552846630-ceuaddgc0altqca0vfn209cgccmb8v0o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
