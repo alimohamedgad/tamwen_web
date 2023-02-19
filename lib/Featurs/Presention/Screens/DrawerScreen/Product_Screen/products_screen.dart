@@ -5,7 +5,7 @@ import 'package:tamwen_web/Featurs/Data/model/user_model.dart';
 import 'package:tamwen_web/Featurs/Presention/Cubits/Product_cubit/product_cubit.dart';
 import 'package:tamwen_web/Featurs/Presention/Widgets/Custom_Text/custom_text.dart';
 
-import '../../../../../Data/model/details_models.dart';
+import '../../../../Data/model/details_models.dart';
 
 class ProductsScreen extends StatefulWidget {
   final List<UserModel> userModel;

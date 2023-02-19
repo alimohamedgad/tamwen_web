@@ -2,13 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Data/model/flour_model.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/Flour_Cubit/flour_cubit.dart';
 import 'package:tamwen_web/Featurs/Presention/Cubits/Tamwen_Cubit/tamwen_cubit.dart';
 
-import '../../../../../Data/Data_Source/FireStore_DataBase/flour_database.dart';
-import '../../../../../Data/model/user_model.dart';
-import '../../../../Widgets/CustomButton/custom_button.dart';
-import '../../../../Widgets/CustomDropDown/custom_drop_button.dart';
-import '../../../../Widgets/custom_text_field.dart';
+import '../../../../Data/Data_Source/FireStore_DataBase/flour_database.dart';
+import '../../../../Data/model/user_model.dart';
+import '../../../Widgets/CustomButton/custom_button.dart';
+import '../../../Widgets/CustomDropDown/custom_drop_button.dart';
+import '../../../Widgets/custom_text_field.dart';
 
 class UpdateFlour extends StatefulWidget {
   final UserModel? users;
@@ -80,20 +81,25 @@ class _UpdateFlourState extends State<UpdateFlour> {
                     },
                   ),
                   const SizedBox(height: 10),
-                  CustomButton(
-                    onPressed: () {
-                      FlourDataBase.updateFlour(
-                        FlourModel(
-                          id: widget.flourModel?.id,
-                          nameClient: widget.flourModel!.nameClient,
-                          round: cubit.selectRound.toString(),
-                          amountFlour:
-                              int.parse(cubit.selcetedAmountFlour.toString()),
-                        ),
+                  BlocBuilder<FlourCubit, FlourState>(
+                    builder: (context, state) {
+                      var flourCubit = BlocProvider.of<FlourCubit>(context);
+                      return CustomButton(
+                        onPressed: () {
+                          flourCubit.updateFlour(
+                            FlourModel(
+                              id: widget.flourModel?.id,
+                              nameClient: widget.flourModel!.nameClient,
+                              round: cubit.selectRound.toString(),
+                              amountFlour: int.parse(
+                                  cubit.selcetedAmountFlour.toString()),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        },
+                        text: 'اضافة بطاقة دقيق',
                       );
-                      Navigator.pop(context);
                     },
-                    text: 'اضافة بطاقة دقيق',
                   )
                 ],
               ),

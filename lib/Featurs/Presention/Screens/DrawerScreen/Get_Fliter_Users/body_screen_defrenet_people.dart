@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '../../../../../Core/app_colors.dart';
-import '../../../../../Core/app_strings.dart';
-import '../../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
-import '../../../../Widgets/Custom_Text/custom_text.dart';
-import '../../../../Widgets/navigator.dart';
-import '../../../../Widgets/total_price_for_persons.dart';
-import '../../../DetailsScreen/details_screen.dart';
-import '../../../HomeScreen/update_user.dart';
+import '../../../../Core/app_colors.dart';
+import '../../../../Core/app_strings.dart';
+import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../Widgets/Custom_Text/custom_text.dart';
+import '../../../Widgets/navigator.dart';
+import '../../../Widgets/total_price_for_persons.dart';
+import '../../DetailsScreen/details_screen.dart';
+import '../../HomeScreen/update_user.dart';
 
 class BodyScreenForDeferentPeople extends StatefulWidget {
   const BodyScreenForDeferentPeople({

@@ -13,7 +13,7 @@ import '../../../Core/app_strings.dart';
 import '../../../Core/enums.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
 import '../../Widgets/navigator.dart';
-import '../DrawerScreen/DrawarPages/FlourScreen/add_flour.dart';
+import '../DrawerScreen/FlourScreen/add_flour.dart';
 import 'add_product.dart';
 import 'cart_details_screen.dart';
 

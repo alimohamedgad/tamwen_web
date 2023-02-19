@@ -1,13 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Data/model/user_model.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/Flour_Cubit/flour_cubit.dart';
 import 'package:tamwen_web/Featurs/Presention/Widgets/custom_text_field.dart';
 
-import '../../../../../Data/Data_Source/FireStore_DataBase/flour_database.dart';
-import '../../../../../Data/model/flour_model.dart';
-import '../../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
-import '../../../../Widgets/CustomButton/custom_button.dart';
-import '../../../../Widgets/CustomDropDown/custom_drop_button.dart';
+import '../../../../Data/Data_Source/FireStore_DataBase/flour_database.dart';
+import '../../../../Data/model/flour_model.dart';
+import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../Widgets/CustomButton/custom_button.dart';
+import '../../../Widgets/CustomDropDown/custom_drop_button.dart';
 
 class AddFlourScreen extends StatelessWidget {
   final UserModel users;
@@ -61,18 +63,23 @@ class AddFlourScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 10),
-              CustomButton(
-                onPressed: () {
-                  FlourDataBase.addFlour(
-                    FlourModel(
-                      nameClient: users.name,
-                      round: cubit.selectRound.toString(),
-                      amountFlour:
-                          int.parse(cubit.selcetedAmountFlour.toString()),
-                    ),
+              BlocBuilder<FlourCubit, FlourState>(
+                builder: (context, state) {
+                  var flourCubit = BlocProvider.of<FlourCubit>(context);
+                  return CustomButton(
+                    onPressed: () {
+                      flourCubit.addFlour(
+                        FlourModel(
+                          nameClient: users.name,
+                          round: cubit.selectRound.toString(),
+                          amountFlour:
+                              int.parse(cubit.selcetedAmountFlour.toString()),
+                        ),
+                      );
+                    },
+                    text: 'اضافة بطاقة دقيق',
                   );
                 },
-                text: 'اضافة بطاقة دقيق',
               )
             ],
           ),

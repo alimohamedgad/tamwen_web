@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
 import 'body_screen_defrenet_people.dart';
 
 class TotalPeopeEqualOne extends StatelessWidget {

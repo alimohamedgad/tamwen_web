@@ -6,7 +6,7 @@ import 'package:tamwen_web/Featurs/Presention/Widgets/Custom_Text/custom_text.da
 import '../../../Core/app_colors.dart';
 import '../../../Core/app_strings.dart';
 import '../../Widgets/navigator.dart';
-import '../DrawerScreen/DrawarPages/Get_Fliter_Users/total_user_filter.dart';
+import '../DrawerScreen/Get_Fliter_Users/total_user_filter.dart';
 
 class TotalCardsScreen extends StatelessWidget {
   final List<UserModel> users;

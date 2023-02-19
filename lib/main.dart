@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/Flour_Cubit/flour_cubit.dart';
 import 'package:tamwen_web/Featurs/Presention/Cubits/Tamwen_Cubit/tamwen_cubit.dart';
 import 'Featurs/Core/app_colors.dart';
 import 'Featurs/Core/utils.dart';
@@ -36,6 +37,9 @@ class TamwenApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (BuildContext context) => ProductCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => FlourCubit(),
         ),
       ],
       child: MaterialApp(

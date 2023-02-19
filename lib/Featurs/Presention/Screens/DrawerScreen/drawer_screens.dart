@@ -13,8 +13,8 @@ import '../../Widgets/custom_list_tile.dart';
 import '../../Widgets/navigator.dart';
 import '../HomeScreen/add_user.dart';
 import '../HomeScreen/card_screen.dart';
-import 'DrawarPages/FlourScreen/flour_screen.dart';
-import 'DrawarPages/Product_Screens/products_screen.dart';
+import 'FlourScreen/flour_screen.dart';
+import 'Product_Screen/products_screen.dart';
 
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({
