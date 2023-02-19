@@ -1,0 +1,4 @@
+enum PopMenuValue {
+  addNewProduct,
+  addFlour,
+}
