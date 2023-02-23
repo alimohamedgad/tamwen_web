@@ -1,15 +1,17 @@
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Core/utils.dart';
 import 'package:tamwen_web/Featurs/Data/model/flour_model.dart';
 
-import '../../../Core/app_colors.dart';
+import '../../../Core/AppColors/app_colors.dart';
 
 part 'flour_state.dart';
 
 class FlourCubit extends Cubit<FlourState> {
   FlourCubit() : super(FlourInitial());
+
+  static FlourCubit get(context) => BlocProvider.of(context);
 
   final db = FirebaseFirestore.instance;
 
@@ -74,4 +76,22 @@ class FlourCubit extends Cubit<FlourState> {
       emit(DeleteFlourFailure());
     }
   }
+
+  String? selcetedAmountFlour;
+  String? selectRound;
+
+  List amountFlourList = [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+  ];
+  List<FlourModel> roundList = [
+    FlourModel(round: 'الدور الاول'),
+    FlourModel(round: 'الدور الثاني'),
+    FlourModel(round: 'الدور الثالث'),
+    FlourModel(round: 'الدور الرابع'),
+  ];
 }

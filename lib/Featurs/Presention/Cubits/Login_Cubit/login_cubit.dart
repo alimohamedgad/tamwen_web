@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../Core/app_colors.dart';
+import '../../../Core/AppColors/app_colors.dart';
 
 import '../../../Core/utils.dart';
 
@@ -11,8 +12,16 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
 
   final auth = FirebaseAuth.instance;
-  Future signIn({required String email, required String password}) async {
+  Future signIn(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
     emit(LoginLoading());
+
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
       emit(LoginSuccess());
@@ -36,7 +45,8 @@ class LoginCubit extends Cubit<LoginState> {
       emit(SignOutSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        Utils.snackBar(
+            'لم يتم العثور على مستخدم لهذا البريد الإلكتروني', AppColors.red);
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }

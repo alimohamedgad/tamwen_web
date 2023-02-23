@@ -485,91 +485,187 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tamwen_web/Featurs/Core/utils.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/Login_Cubit/login_cubit.dart';
+import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Home/home_page.dart';
+import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/CustomButton/custom_button.dart';
+import 'package:tamwen_web/Featurs/Presention/Screens/Web/HomeScreen_Web/home_screnn_web.dart';
+import 'package:vertical_tabs_flutter/vertical_tabs.dart';
 
-class MyWidget extends StatefulWidget {
-  MyWidget({
+import '../../Core/AppColors/app_colors.dart';
+import 'Mobile/Widgets/Custom_Text/custom_text.dart';
+import 'Mobile/Widgets/custom_text_field.dart';
+import 'Mobile/Widgets/navigator.dart';
+import 'Web/HomeScreen_Web/add_user_web.dart';
+
+class LoginWidget2 extends StatelessWidget {
+  const LoginWidget2({
     Key? key,
   }) : super(key: key);
 
-  static String id = 'MyWidget';
-
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
-    // GlobalKey<FormBuilderState>? _fbKey;
-    List<String> genderOptions = ['Male', 'Female', 'Other'];
-
-    List<String> _items = [];
-    GlobalKey<FormBuilderState>? _fbKey;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            FormBuilderDropdown<String>(
-              name: 'gender',
-              decoration: InputDecoration(
-                labelText: 'Gender',
-                // initialValue: 'Male',
-                suffix: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    _fbKey?.currentState!.reset();
-                  },
-                ),
-                hintText: 'Select Gender',
-              ),
-              items: genderOptions
-                  .map((gender) => DropdownMenuItem(
-                        alignment: AlignmentDirectional.center,
-                        value: gender,
-                        child: Text(gender),
-                      ))
-                  .toList(),
-            ),
-            FormBuilder(
-              key: _fbKey,
-              child: Column(
-                children: <Widget>[
-                  FormBuilderDropdown(
-                    name: '',
-                    onChanged: (val) {
-                      setState(() {
-                        final length =
-                            _fbKey!.currentState?.fields.values.length;
-                        _fbKey.currentState?.fields.values
-                            .elementAt(length! - 1)
-
-                            /// Widget position
-                            .reset();
-
-                        if (val == "x") {
-                          _items = ["1", "2"];
-                        } else {
-                          _items = ["10", "11"];
-                        }
-                      });
-                    },
-                    items: ["x", "y"].map((cpt) {
-                      return DropdownMenuItem(value: cpt, child: Text("$cpt"));
-                    }).toList(),
+    var size = MediaQuery.of(context).size;
+    var emailController = TextEditingController();
+    var passwordController = TextEditingController();
+    GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) {
+        if (state is LoginLoading) {
+          const Center(child: CircularProgressIndicator());
+          Utils.snackBar('يرجي الانتظار', Colors.green);
+        } else if (state is LoginSuccess) {
+          customNavPush(const HomePage(), context);
+        } else if (state is LoginFailure) {
+          Utils.snackBar(state.erorrMessage, Colors.red);
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(),
+          body: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 50, left: 5, right: 5),
+              child: SingleChildScrollView(
+                child: Container(
+                  height: size.height,
+                  width: size.width,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: 480,
+                          // constraints: BoxConstraints.,
+                          width: 325,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: AppColors.textColor,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const CustomText(
+                                text: 'مرحبا بكم',
+                                color: AppColors.black,
+                                fontSize: 25,
+                              ),
+                              const CustomText(
+                                text: 'يرجي تسجيل الدخول',
+                                color: AppColors.black,
+                                fontSize: 25,
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextfield(
+                                keyBordTyp: TextInputType.emailAddress,
+                                hintText: 'ادخل البريد الالكتروني',
+                                controller: emailController,
+                                icon: Icons.person,
+                                colorIcon: Colors.black,
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return 'يرجي ادخال البريد الالكتروني';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              CustomTextfield(
+                                keyBordTyp: TextInputType.number,
+                                hintText: 'ادخل الرقم السرى',
+                                controller: passwordController,
+                                icon: Icons.lock,
+                                colorIcon: Colors.black,
+                                obscureText: true,
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return 'يرجي ادخال الرقم السرى ';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              CustomButton(
+                                onPressed: () async {
+                                  var loginCubit =
+                                      BlocProvider.of<LoginCubit>(context);
+                                  if (formKey.currentState!.validate()) {
+                                    await loginCubit.signIn(
+                                        email: emailController.text.trim(),
+                                        password:
+                                            passwordController.text.trim(),
+                                        context: context);
+                                  }
+                                },
+                                text: 'تسجيل الدخول',
+                                color: AppColors.black,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(flex: 7, child: Container()),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                ],
+                ),
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class FlutterWeb extends StatelessWidget {
+  const FlutterWeb({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: VerticalTabs(
+              tabsWidth: 300,
+              direction: TextDirection.rtl,
+              backgroundColor: AppColors.textColor,
+              // tabBackgroundColor: AppColors.primaryColor,
+              tabs: const [
+                Tab(
+                  child: UserAccountsDrawerHeader(
+                    accountName: const CustomText(
+                      text: 'الحساب الخاص بك',
+                    ),
+                    accountEmail: CustomText(
+                      text: ' user!.email!',
+                    ),
+                    decoration: const BoxDecoration(color: AppColors.textColor),
+                  ),
+                ),
+                Tab(child: Text('الصفحة الرئيسية')),
+                Tab(child: Text('PHP')),
+                Tab(child: Text('HTML 5')),
+                Tab(child: Text('HTML 5')),
+              ],
+              contents: [
+                Container(
+                  child: null,
+                ),
+                const HomePageWeb(),
+                const AddUserWeb(),
+                Container(
+                  child: const Text('PHP'),
+                ),
+                Container(
+                  child: const Text('HTML 5'),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

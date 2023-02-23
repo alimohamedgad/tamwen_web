@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Data/model/user_model.dart';
-import '../../../Core/app_colors.dart';
+import '../../../Core/AppColors/app_colors.dart';
 import '../../../Core/utils.dart';
-import '../../../Data/model/flour_model.dart';
 
 import '../../../Data/model/details_models.dart';
 
@@ -50,9 +49,9 @@ class TamwenCubit extends Cubit<TamwenState> {
   int index = 0;
   Future<void> addUsers(UserModel model) async {
     emit(AddUserLoading());
+
     final docuser = db.collection('users').doc();
     model.id = docuser.id;
-
     try {
       await docuser.set(model.toJson());
       Utils.snackBar('لقد قمت ب اضافة بطاقة جديدة', AppColors.green);
@@ -188,23 +187,6 @@ class TamwenCubit extends Cubit<TamwenState> {
   String? numExtraPeopleSelected;
   String? priceOfExtraPeopleSelected;
 
-  String? selcetedAmountFlour;
-  String? selectRound;
-
-  List amountFlourList = [
-    10,
-    20,
-    30,
-    40,
-    50,
-    60,
-  ];
-  List<FlourModel> roundList = [
-    FlourModel(round: 'الدور الاول'),
-    FlourModel(round: 'الدور الثاني'),
-    FlourModel(round: 'الدور الثالث'),
-    FlourModel(round: 'الدور الرابع'),
-  ];
   // List<FlourModel> flourList = [];
   // Future<List<FlourModel>> getFlours() async {
   //   var docsss = await db.collection('flour').orderBy('round').get();
