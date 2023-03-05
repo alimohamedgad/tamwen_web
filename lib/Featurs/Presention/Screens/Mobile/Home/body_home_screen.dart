@@ -5,11 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Home/update_user.dart';
-
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/app_strings.dart';
 import '../../../../Data/model/user_model.dart';
-import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../Cubits/People_Cubit/people_cubit.dart';
 import '../Widgets/Custom_Text/custom_text.dart';
 import '../Widgets/Simmer_Loading/shimmer.dart';
 import '../Widgets/navigator.dart';
@@ -20,11 +19,11 @@ class BodyHomeScreen extends StatelessWidget {
   const BodyHomeScreen({
     Key? key,
     required this.users,
-    this.cubit,
+    this.peopleCubit,
   }) : super(key: key);
 
   final List<UserModel> users;
-  final TamwenCubit? cubit;
+  final PeopleCubit? peopleCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -53,13 +52,14 @@ class BodyHomeScreen extends StatelessWidget {
                       children: [
                         SlidableAction(
                           onPressed: (context) async {
-                            await cubit!.deleteUser(user);
+                            await peopleCubit!.deleteUser(user);
                           },
                           backgroundColor: const Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
                           label: AppStrings.remove,
                         ),
+                        Container(),
                         SizedBox(width: 4.w),
                         SlidableAction(
                           onPressed: (context) {
@@ -72,54 +72,53 @@ class BodyHomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: InkWell(
-                      onTap: () {
-                        customNavPush(
-                          DetailsScreen(
-                            users: users[index],
-                            totalPrice: totlePrice,
-                          ),
-                          context,
-                        );
-                      },
-                      child: Card(
-                        margin: const EdgeInsets.all(5),
-                        color: AppColors.textColor,
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            width: 0.5.w,
-                            style: BorderStyle.solid,
-                          ),
+                    child: Card(
+                      margin: const EdgeInsets.all(5),
+                      color: AppColors.textColor,
+                      shadowColor: Colors.black,
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          width: 0.5.w,
+                          style: BorderStyle.solid,
                         ),
-                        child: ListTile(
-                          title: CustomText(
-                            text: "${AppStrings.name}${user.name}",
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text:
-                                    "${AppStrings.numberOfIndividuals}${user.numberOfMainPeople}  /  ${user.numberOfExtraPeople}",
-                              ),
-                              CustomText(
-                                text: "${AppStrings.password} ${user.password}",
-                              ),
-                            ],
-                          ),
-                          trailing: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CustomText(text: totlePrice.toString()),
-                              const Spacer(),
-                              CustomText(
-                                text:
-                                    "${user.priceOfExtraPerople * user.numberOfExtraPeople}",
-                              ),
-                            ],
-                          ),
+                      ),
+                      child: ListTile(
+                        onTap: () {
+                          customNavPush(
+                            DetailsScreen(
+                              users: users[index],
+                              totalPrice: totlePrice,
+                            ),
+                            context,
+                          );
+                        },
+                        title: CustomText(
+                          text: "${AppStrings.name}${user.name}",
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              text:
+                                  "${AppStrings.numberOfIndividuals}${user.numberOfMainPeople}  /  ${user.numberOfExtraPeople}",
+                            ),
+                            CustomText(
+                              text: "${AppStrings.password} ${user.password}",
+                            ),
+                          ],
+                        ),
+                        trailing: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomText(text: totlePrice.toString()),
+                            const Spacer(),
+                            CustomText(
+                              text:
+                                  "${user.priceOfExtraPerople * user.numberOfExtraPeople}",
+                            ),
+                          ],
                         ),
                       ),
                     ),

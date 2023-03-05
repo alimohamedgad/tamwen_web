@@ -36,7 +36,7 @@ class CustomListTielCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         childAspectRatio: 4 / 1,
       ),

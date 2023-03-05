@@ -21,11 +21,11 @@ class CustomListTile extends StatelessWidget {
     return ListTile(
       title: Text(
         text,
-        style: const TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.white),
       ),
       trailing: Icon(
         icon,
-        color: AppColors.black,
+        color: AppColors.white,
       ),
       onTap: onTap,
     );

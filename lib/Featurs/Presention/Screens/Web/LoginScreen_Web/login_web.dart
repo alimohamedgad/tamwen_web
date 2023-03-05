@@ -68,6 +68,13 @@ class LoginWidgetWeb extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.r),
                   color: AppColors.textColor,
+                  // gradient: LinearGradient(
+                  //   colors: [
+                  //     Colors.green,
+                  //     Colors.black,
+                  //     Colors.red,
+                  //   ],
+                  // ),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

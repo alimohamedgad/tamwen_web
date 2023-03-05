@@ -37,6 +37,13 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
+  bool isAdmin = false;
+
+  isAdminChange(bool value) {
+    isAdmin = !value;
+    emit(IsAdmin(isAdmin: isAdmin));
+  }
+
   Future signOut() async {
     emit(SignOutLoading());
     try {

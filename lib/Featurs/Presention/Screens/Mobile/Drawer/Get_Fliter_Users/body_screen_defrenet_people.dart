@@ -6,7 +6,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../../../../Core/AppColors/app_colors.dart';
 import '../../../../../Core/app_strings.dart';
-import '../../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../../Cubits/People_Cubit/people_cubit.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
 import '../../Widgets/navigator.dart';
 import '../../Widgets/total_price_for_persons.dart';
@@ -16,12 +16,12 @@ import '../../Home/update_user.dart';
 class BodyScreenForDeferentPeople extends StatefulWidget {
   const BodyScreenForDeferentPeople({
     Key? key,
-    this.tamwenCubit,
+    this.peopleCubit,
     required this.isEqualTo,
   }) : super(key: key);
 
   // final List<UserModel> users;
-  final TamwenCubit? tamwenCubit;
+  final PeopleCubit? peopleCubit;
   final Object isEqualTo;
 
   @override
@@ -33,14 +33,14 @@ class _BodyScreenForDeferentPeopleState
     extends State<BodyScreenForDeferentPeople> {
   @override
   void initState() {
-    widget.tamwenCubit!.getAllUsersForDeferentPerson(widget.isEqualTo);
+    widget.peopleCubit!.getAllUsersForDeferentPerson(widget.isEqualTo);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ConditionalBuilder(
-      condition: widget.tamwenCubit!.deferentUserList.isNotEmpty,
+      condition: widget.peopleCubit!.deferentUserList.isNotEmpty,
       fallback: (context) => const Center(
         child: CustomText(
           text: AppStrings.thisListIsEmpty,
@@ -51,9 +51,9 @@ class _BodyScreenForDeferentPeopleState
       builder: (BuildContext context) {
         return AnimationLimiter(
           child: ListView.builder(
-            itemCount: widget.tamwenCubit!.deferentUserList.length,
+            itemCount: widget.peopleCubit!.deferentUserList.length,
             itemBuilder: (context, index) {
-              final user = widget.tamwenCubit!.deferentUserList[index];
+              final user = widget.peopleCubit!.deferentUserList[index];
               var mainPrice = user.numberOfMainPeople;
               var totlePrice = 0;
               totlePrice = totalPriceForMainPersons(mainPrice, totlePrice);
@@ -71,7 +71,7 @@ class _BodyScreenForDeferentPeopleState
                         children: [
                           SlidableAction(
                             onPressed: (context) async {
-                              await widget.tamwenCubit!.deleteUser(user);
+                              await widget.peopleCubit!.deleteUser(user);
                             },
                             backgroundColor: const Color(0xFFFE4A49),
                             foregroundColor: Colors.white,
@@ -95,7 +95,7 @@ class _BodyScreenForDeferentPeopleState
                           customNavPush(
                             DetailsScreen(
                               users:
-                                  widget.tamwenCubit!.deferentUserList[index],
+                                  widget.peopleCubit!.deferentUserList[index],
                               totalPrice: totlePrice,
                             ),
                             context,

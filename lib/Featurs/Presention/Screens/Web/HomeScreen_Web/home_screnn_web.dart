@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tamwen_web/Featurs/Core/AppColors/app_colors.dart';
 import 'package:tamwen_web/Featurs/Core/Get_it/get_it.dart';
-import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/People_Cubit/people_state.dart';
+import '../../../Cubits/People_Cubit/people_cubit.dart';
 
 import '../../Mobile/Widgets/SearchScreen/custom_search.dart';
 import 'body_home_web.dart';
@@ -14,15 +14,15 @@ class HomePageWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TamwenCubit>()..getAllUsers(),
-      child: BlocConsumer<TamwenCubit, TamwenState>(
+      create: (context) => getIt<PeopleCubit>()..getAllUsers(),
+      child: BlocConsumer<PeopleCubit, PeopleState>(
         listener: (context, state) {},
         builder: (context, state) {
-          var tamwenCubit = TamwenCubit.get(context);
+          var peopleCubit = PeopleCubit.get(context);
           return Scaffold(
-            // appBar: appBarHomePage(context, tamwenCubit),
+            // appBar: appBarHomePage(context, PeopleCubit),
             body: BodyHomeScreenWeb(
-                users: tamwenCubit.users, tamwenCubit: tamwenCubit),
+                users: peopleCubit.users, peopleCubit: peopleCubit),
           );
         },
       ),
@@ -30,7 +30,7 @@ class HomePageWeb extends StatelessWidget {
   }
 }
 
-AppBar appBarHomePage(BuildContext context, TamwenCubit cubit) {
+AppBar appBarHomePage(BuildContext context, PeopleCubit cubit) {
   return AppBar(
     // title: Text(
     //   "${cubit.getTotalPerson(users, 4)}",

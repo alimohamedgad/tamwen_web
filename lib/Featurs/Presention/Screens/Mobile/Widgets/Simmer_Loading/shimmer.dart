@@ -13,7 +13,7 @@ class ShimmerLoading extends StatelessWidget {
       child: ListView.builder(
         itemCount: 10,
         itemBuilder: (context, index) => Container(
-          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           width: double.infinity,
           color: AppColors.white,
           height: 80,

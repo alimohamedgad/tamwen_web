@@ -12,6 +12,7 @@ class ProductCubit extends Cubit<ProductState> {
   ProductCubit() : super(ProductInitial());
   var db = FirebaseFirestore.instance;
   List<DetailsModel> details = [];
+  List<DetailsModel> detailsFilter = [];
   getAllProducts(UserModel userModel) {
     emit(GetProductsLoading());
     try {
@@ -33,22 +34,17 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   getAllProducts2() {
-    emit(GetProductsLoading());
+    emit(FilterProductLoading());
     try {
-      db
-          .collection('users')
-          .doc()
-          .collection('products')
-          .snapshots()
-          .listen((event) {
-        details.clear();
+      db.collectionGroup('products').snapshots().listen((event) {
+        detailsFilter.clear();
         for (var product in event.docs) {
-          details.add(DetailsModel.fromJson(product));
+          detailsFilter.add(DetailsModel.fromJson(product));
+          emit(FilterProductSuccess());
         }
-        emit(GetProductsSuccess(details: details));
       });
     } on Exception catch (e) {
-      emit(GetProductsSFaliure());
+      emit(FilterProductErorr());
     }
   }
 
@@ -92,12 +88,13 @@ class ProductCubit extends Cubit<ProductState> {
         .collection('products')
         .doc(detailsModel.id);
     final updateProduct = DetailsModel(
-      id: detailsModel.id,
-      nameProduct: detailsModel.nameProduct,
-      quantity: detailsModel.quantity,
-      image: detailsModel.image,
-      price: detailsModel.price,
-    ).toJsonDoc();
+            id: detailsModel.id,
+            nameProduct: detailsModel.nameProduct,
+            quantity: detailsModel.quantity,
+            image: detailsModel.image,
+            price: detailsModel.price,
+            dateTime: DateTime.now().month)
+        .toJsonDoc();
     try {
       await docRef.update(updateProduct);
       emit(ProductUpdateSuccess());
@@ -113,5 +110,16 @@ class ProductCubit extends Cubit<ProductState> {
       totalPrice += element.price * element.quantity;
     }
     return totalPrice;
+  }
+
+  List<DetailsModel> product = [];
+  getCollocProduct() {
+    db.collection('Products').snapshots().listen((event) {
+      product.clear();
+      for (var data in event.docs) {
+        product.add(DetailsModel.fromJson(data));
+      }
+      emit(Product());
+    });
   }
 }

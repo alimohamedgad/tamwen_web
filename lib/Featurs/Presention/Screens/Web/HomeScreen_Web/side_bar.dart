@@ -9,25 +9,22 @@ import 'package:vertical_tabs_flutter/vertical_tabs.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/app_strings.dart';
 import '../../../Cubits/Login_Cubit/login_cubit.dart';
-import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
-import '../../Mobile/Widgets/Custom_Text/custom_text.dart';
+import '../../../Cubits/People_Cubit/people_cubit.dart';
 import '../../Mobile/Widgets/custom_list_tile.dart';
 import '../../Mobile/Widgets/navigator.dart';
 import '../../Mobile/Drawer/FlourScreen/flour_screen.dart';
-import '../../Mobile/Drawer/Product_Screen/products_screen.dart';
 import '../LoginScreen_Web/login_web.dart';
 import 'add_user_web.dart';
-import '../../Mobile/Home/card_screen.dart';
 
 class DrawerBodyWeb extends StatelessWidget {
   const DrawerBodyWeb({
     Key? key,
     required this.user,
-    required this.tamwenCubit,
+    required this.peopleCubit,
   }) : super(key: key);
 
   final User? user;
-  final TamwenCubit tamwenCubit;
+  final PeopleCubit peopleCubit;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -67,18 +64,18 @@ class DrawerBodyWeb extends StatelessWidget {
             icon: Icons.people_alt,
             text: AppStrings.totalPerosns,
             onTap: () {
-              customNavPush(TotalCardsWeb(users: tamwenCubit.users), context);
+              customNavPush(TotalCardsWeb(users: peopleCubit.users), context);
             },
           ),
-          CustomListTile(
-              icon: Icons.production_quantity_limits,
-              text: AppStrings.products,
-              onTap: () {
-                customNavPush(
-                  ProductsScreen(userModel: tamwenCubit.users),
-                  context,
-                );
-              }),
+          // CustomListTile(
+          //     icon: Icons.production_quantity_limits,
+          //     text: AppStrings.products,
+          //     onTap: () {
+          //       customNavPush(
+          //         ProductsScreen(userModel: peopleCubit.users),
+          //         context,
+          //       );
+          //     }),
           CustomListTile(
             icon: Icons.logout_outlined,
             text: AppStrings.signOut,
@@ -97,12 +94,8 @@ class DrawerBodyWeb extends StatelessWidget {
 class CustomVerticalTabs extends StatelessWidget {
   const CustomVerticalTabs({
     Key? key,
-    // required this.user,
-    // required this.tamwenCubit,
   }) : super(key: key);
 
-  // final User? user;
-  // final TamwenCubit tamwenCubit;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,7 +176,7 @@ class CustomVerticalTabs extends StatelessWidget {
     //       icon: Icons.people_alt,
     //       text: AppStrings.totalPerosns,
     //       onTap: () {
-    //         customNavPush(TotalCardsWeb(users: tamwenCubit.users), context);
+    //         customNavPush(TotalCardsWeb(users: PeopleCubit.users), context);
     //       },
     //     ),
     //     CustomListTile(
@@ -191,7 +184,7 @@ class CustomVerticalTabs extends StatelessWidget {
     //         text: AppStrings.products,
     //         onTap: () {
     //           customNavPush(
-    //             ProductsScreen(userModel: tamwenCubit.users),
+    //             ProductsScreen(userModel: PeopleCubit.users),
     //             context,
     //           );
     //         }),

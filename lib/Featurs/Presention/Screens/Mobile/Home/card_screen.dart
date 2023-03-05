@@ -35,30 +35,28 @@ class CustomListTielCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: cardModel.length,
-        itemBuilder: (context, index) {
-          var cardItem = cardModel[index];
-          return InkWell(
-            onTap: () {
-              customNavPush(
-                  TotalPeopeEqualOne(isEqualTo: cardItem.isEqualTo), context);
-            },
-            child: Card(
-              color: AppColors.textColor,
-              child: ListTile(
-                title: CustomText(
-                  text: AppStrings.totlePeople(cardItem.numberPerosn),
-                ),
-                trailing: CustomText(
-                  text: "${getTotalPerson(users, cardItem.numberPersonInList)}",
-                ),
+    return ListView.builder(
+      itemCount: cardModel.length,
+      itemBuilder: (context, index) {
+        var cardItem = cardModel[index];
+        return InkWell(
+          onTap: () {
+            customNavPush(
+                TotalPeopeEqualOne(isEqualTo: cardItem.isEqualTo), context);
+          },
+          child: Card(
+            color: AppColors.textColor,
+            child: ListTile(
+              title: CustomText(
+                text: AppStrings.totlePeople(cardItem.numberPerosn),
+              ),
+              trailing: CustomText(
+                text: "${getTotalPerson(users, cardItem.numberPersonInList)}",
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 

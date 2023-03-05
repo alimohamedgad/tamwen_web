@@ -1,17 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:tamwen_web/Featurs/Data/model/user_model.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/Custom_Text/custom_text.dart';
 import '../../../../../Core/AppColors/app_colors.dart';
 import '../../../../../Core/app_strings.dart';
-import '../../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../../Cubits/People_Cubit/people_cubit.dart';
 import '../../Home/body_home_screen.dart';
 
 class CustomSearch extends SearchDelegate {
   final List<UserModel> users;
-  final TamwenCubit cubit;
+  final PeopleCubit cubit;
   CustomSearch({
     required this.users,
     required this.cubit,
@@ -86,7 +85,7 @@ class CustomSearch extends SearchDelegate {
       builder: (context) => Scaffold(
         body: BodyHomeScreen(
           users: searchForList,
-          cubit: cubit,
+          peopleCubit: cubit,
         ),
       ),
     );
@@ -113,7 +112,7 @@ class CustomSearch extends SearchDelegate {
         return Scaffold(
           body: BodyHomeScreen(
             users: searchForList,
-            cubit: cubit,
+            peopleCubit: cubit,
           ),
         );
       },

@@ -1,12 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/People_Cubit/people_state.dart';
 import 'package:tamwen_web/Featurs/Presention/Cubits/Product_cubit/product_cubit.dart';
-import 'package:tamwen_web/Featurs/Presention/Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/People_Cubit/people_cubit.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/CustomButton/custom_button.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/CustomDropDown/custom_drop_button.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/Custom_Text/custom_text.dart';
 
+import '../../../../Core/App_String/strings.dart';
 import '../../../../Core/app_strings.dart';
 import '../../../../Data/model/details_models.dart';
 import '../Widgets/custom_text_field.dart';
@@ -21,14 +23,6 @@ class AddProduct extends StatelessWidget {
 
   static const String idRout = 'AddNewDataInCart';
 
-  // @override
-  // void initState() {
-  //   nameProductKey.currentState?.reset();
-  //   imageProductKey.currentState?.reset();
-  //   quantiteProductKey.currentState?.reset();
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     var priceProductContoller = TextEditingController();
@@ -39,10 +33,9 @@ class AddProduct extends StatelessWidget {
     final GlobalKey<FormFieldState> quantiteProductKey =
         GlobalKey<FormFieldState>();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    return BlocBuilder<TamwenCubit, TamwenState>(
+    return BlocBuilder<PeopleCubit, PeopleState>(
       builder: (context, state) {
-        var cubit = TamwenCubit.get(context);
-
+        var cubit = PeopleCubit.get(context);
         return Scaffold(
           appBar: AppBar(),
           body: Form(
@@ -79,7 +72,7 @@ class AddProduct extends StatelessWidget {
                       keyDropDown: imageProductKey,
                       selectVaule: cubit.selectedImage,
                       hint: AppStrings.choiceProductImage,
-                      items: cubit.imageWithNameProductList.map((e) {
+                      items: imageWithNameProductList.map((e) {
                         return DropdownMenuItem(
                           value: e.image,
                           child: Row(
@@ -105,7 +98,7 @@ class AddProduct extends StatelessWidget {
                       selectVaule: cubit.selectedQuantite,
                       keyDropDown: quantiteProductKey,
                       hint: AppStrings.choiceQuantite,
-                      items: cubit.quantiteList.map((e) {
+                      items: quantiteList.map((e) {
                         return DropdownMenuItem(
                           value: e,
                           child: CustomText(
@@ -146,12 +139,12 @@ class AddProduct extends StatelessWidget {
                             if (formKey.currentState!.validate()) {
                               productCubit.addProduct(
                                 DetailsModel(
-                                  nameProduct: cubit.selectedProductName,
-                                  image: cubit.selectedImage,
-                                  price:
-                                      double.parse(priceProductContoller.text),
-                                  quantity: cubit.selectedQuantite!,
-                                ),
+                                    nameProduct: cubit.selectedProductName,
+                                    image: cubit.selectedImage,
+                                    price: double.parse(
+                                        priceProductContoller.text),
+                                    quantity: cubit.selectedQuantite!,
+                                    dateTime: DateTime.now().month),
                                 idUser!,
                               );
                               priceProductContoller.clear();

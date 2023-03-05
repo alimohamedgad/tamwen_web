@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tamwen_web/Featurs/Presention/Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import 'package:tamwen_web/Featurs/Core/App_String/strings.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/People_Cubit/people_cubit.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/People_Cubit/people_state.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Web/HomeScreen_Web/home_screnn_web.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/CustomDropDown/custom_drop_button.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/Custom_Text/custom_text.dart';
@@ -25,9 +27,9 @@ class AddUserWeb extends StatelessWidget {
     var passwordController = TextEditingController();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-    return BlocBuilder<TamwenCubit, TamwenState>(
+    return BlocBuilder<PeopleCubit, PeopleState>(
       builder: (context, state) {
-        var cubit = TamwenCubit.get(context);
+        var cubit = PeopleCubit.get(context);
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
           appBar: AppBar(
@@ -41,7 +43,7 @@ class AddUserWeb extends StatelessWidget {
               child: Center(
                 child: Container(
                   margin: const EdgeInsets.only(top: 100),
-                  width: 150.w,
+                  width: 140.w,
                   child: Column(
                     children: [
                       CustomTextfield(
@@ -73,9 +75,9 @@ class AddUserWeb extends StatelessWidget {
                       CustomDropDownField(
                         selectVaule: cubit.numMainPeopleSelected,
                         hint: AppStrings.numberOfMainPeople,
-                        items: cubit.numberOfMainPeropleList.map((e) {
+                        items: listFromZeroTo9.map((e) {
                           return DropdownMenuItem(
-                            value: e,
+                            value: '$e',
                             child: CustomText(
                               text: "${AppStrings.numberOfMainPeople} "
                                   " = $e${AppStrings.onePeople}",
@@ -90,9 +92,9 @@ class AddUserWeb extends StatelessWidget {
                       CustomDropDownField(
                         selectVaule: cubit.numExtraPeopleSelected,
                         hint: AppStrings.numberOfExtraPeople,
-                        items: cubit.numberOfMainPeropleList.map((e) {
+                        items: listFromZeroTo9.map((e) {
                           return DropdownMenuItem(
-                            value: e,
+                            value: '$e',
                             child: CustomText(
                               text: "${AppStrings.numberOfExtraPeople} "
                                   " = $e${AppStrings.onePeople}",

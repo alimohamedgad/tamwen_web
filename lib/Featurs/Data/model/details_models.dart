@@ -7,12 +7,14 @@ class DetailsModel extends Equatable {
   final String? image;
   final String? nameProduct;
   int quantity;
+  final int dateTime;
   DetailsModel({
     this.price = 0,
     this.id,
     this.image = 'لا يوجد صوره',
     this.nameProduct = '',
     this.quantity = 0,
+    required this.dateTime,
   });
 
   factory DetailsModel.fromJson(json) {
@@ -22,6 +24,7 @@ class DetailsModel extends Equatable {
       id: json['id'],
       nameProduct: json['nameProduct'],
       quantity: json['quantity'],
+      dateTime: json['dateTime'],
     );
   }
 
@@ -32,21 +35,29 @@ class DetailsModel extends Equatable {
       'priceForOneProduct': price,
       'imageProduct': image,
       'quantity': quantity,
+      'dateTime': dateTime,
     };
   }
 
   @override
-  List<Object> get props => [
-        price,
-      ];
+  List<Object?> get props {
+    return [
+      price,
+      id,
+      image,
+      nameProduct,
+      quantity,
+      dateTime,
+    ];
+  }
 
   DetailsModel copyWith({
     double? price,
-    double? quantite,
     String? id,
     String? image,
     String? nameProduct,
     int? quantity,
+    int? dateTime,
   }) {
     return DetailsModel(
       price: price ?? this.price,
@@ -54,6 +65,7 @@ class DetailsModel extends Equatable {
       image: image ?? this.image,
       nameProduct: nameProduct ?? this.nameProduct,
       quantity: quantity ?? this.quantity,
+      dateTime: dateTime ?? this.dateTime,
     );
   }
 }

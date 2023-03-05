@@ -26,3 +26,9 @@ class SignOutSuccess extends LoginState {}
 class SignOutLoading extends LoginState {}
 
 class SignOutFailure extends LoginState {}
+
+class IsAdmin extends LoginState {
+  final bool isAdmin;
+
+  const IsAdmin({required this.isAdmin});
+}

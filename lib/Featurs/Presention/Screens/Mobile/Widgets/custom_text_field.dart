@@ -16,6 +16,7 @@ class CustomTextfield extends StatelessWidget {
   final double? hight;
   final String? Function(String?)? validator;
   final bool obscureText;
+  final Function(String)? onChange;
   // final Function(String?)? onSaved;
   const CustomTextfield({
     Key? key,
@@ -30,6 +31,7 @@ class CustomTextfield extends StatelessWidget {
     this.hight,
     this.validator,
     this.obscureText = false,
+    this.onChange,
   }) : super(key: key);
 
   @override
@@ -40,6 +42,7 @@ class CustomTextfield extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: TextFormField(
         // onSaved: onSaved,
+        onChanged: onChange,
         onTap: onTap,
         controller: controller,
         initialValue: initialValue,
@@ -69,7 +72,7 @@ class CustomTextfield extends StatelessWidget {
 OutlineInputBorder outlineBordaer() {
   return OutlineInputBorder(
       borderRadius: BorderRadius.circular(5.r),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: Colors.black,
         width: 1.0,
       ));

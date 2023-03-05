@@ -8,7 +8,7 @@ import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/Custom_Text
 import '../../../../../Data/model/details_models.dart';
 
 class ProductsScreen extends StatefulWidget {
-  final List<UserModel> userModel;
+  final UserModel userModel;
   const ProductsScreen({
     Key? key,
     required this.userModel,
@@ -21,7 +21,6 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
-    // var model = widget.userModel.map((e) => e).toList();
     BlocProvider.of<ProductCubit>(context).getAllProducts2();
     super.initState();
   }
@@ -30,42 +29,61 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          BlocBuilder<ProductCubit, ProductState>(
-            builder: (context, state) {
-              var productCubit = BlocProvider.of<ProductCubit>(context);
-              // BlocProvider.of<ProductCubit>(context).getAllProducts(user);
+      body: BlocBuilder<ProductCubit, ProductState>(
+        builder: (context, state) {
+          var productCubit = BlocProvider.of<ProductCubit>(context);
+          final filteredClassList = productCubit.detailsFilter
+              .fold<Map<String, DetailsModel>>({}, (map, product) {
+                map.putIfAbsent(product.nameProduct!, () => product);
+                return map;
+              })
+              .values
+              .toList();
 
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: productCubit.details.length,
-                  itemBuilder: (context, index) {
-                    var product = productCubit.details[index];
-                    return Card(
-                      child: ListTile(
-                        title: CustomText(text: '${product.nameProduct}'),
-                        trailing: CustomText(
-                          text: '${getTotlaProducts(productCubit.details)}',
-                        ),
-                      ),
-                    );
-                  },
+          return ListView.builder(
+            itemCount: filteredClassList.length,
+            itemBuilder: (context, index) {
+              var product = filteredClassList[index];
+              return Card(
+                child: ListTile(
+                  title: CustomText(text: '${product.nameProduct}'),
+                  trailing: CustomText(
+                    text:
+                        '${getTotlaProducts(productCubit.detailsFilter, product.nameProduct!)}',
+                  ),
+                  // trailing: CustomText(
+                  //   text: '${product.quantity}',
+                  // ),
                 ),
               );
             },
-          )
-        ],
+          );
+        },
       ),
     );
   }
 
-  getTotlaProducts(List<DetailsModel> detailsList) {
+  getTotlaProducts(List<DetailsModel> detailsList, String nameProduct) {
     double totalPrice = 0.0;
-    for (var element
-        in detailsList.where((element) => element.nameProduct == 'سكر تموين')) {
-      totalPrice += element.quantity;
+    for (var product
+        in detailsList.where((element) => element.nameProduct == nameProduct)) {
+      totalPrice += product.quantity;
     }
+
     return totalPrice.toInt();
   }
 }
+
+
+  //* var seen = Set<String>();
+  //*   List<String> uniquelist = countries.where((country) => seen.add(country)).toList();
+
+
+     //* groupData
+          // *   .map((dynamic item) => GetOrder.fromJson(item))
+          // *    .fold<Map<String, GetOrder>>({}, (map, element) {
+          //*       map.putIfAbsent(element.orderId, () => element);
+          //   *    return map;
+          //  *   })
+          // *    .values
+          //*     .toList();

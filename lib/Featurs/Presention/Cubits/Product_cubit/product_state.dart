@@ -34,3 +34,11 @@ class DeleteProductFaliure extends ProductState {}
 class ProductUpdateSuccess extends ProductState {}
 
 class ProductUpdateFailure extends ProductState {}
+
+class Product extends ProductState {}
+
+class FilterProductLoading extends ProductState {}
+
+class FilterProductSuccess extends ProductState {}
+
+class FilterProductErorr extends ProductState {}

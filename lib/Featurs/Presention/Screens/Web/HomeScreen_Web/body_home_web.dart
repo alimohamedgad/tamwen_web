@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -10,38 +9,33 @@ import 'package:tamwen_web/Featurs/Presention/Screens/Web/HomeScreen_Web/update_
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/app_strings.dart';
 import '../../../../Data/model/user_model.dart';
-import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../Cubits/People_Cubit/people_cubit.dart';
 import '../../Mobile/Widgets/Custom_Text/custom_text.dart';
 import '../../Mobile/Widgets/Simmer_Loading/shimmer.dart';
 import '../../Mobile/Widgets/navigator.dart';
 import '../../Mobile/Widgets/total_price_for_persons.dart';
 import '../../Mobile/Details/details_screen.dart';
 import '../../Mobile/Home/home_page.dart';
-import 'side_bar.dart';
 
 class BodyHomeScreenWeb extends StatelessWidget {
   const BodyHomeScreenWeb({
     Key? key,
     required this.users,
-    this.tamwenCubit,
+    this.peopleCubit,
   }) : super(key: key);
 
   final List<UserModel> users;
-  final TamwenCubit? tamwenCubit;
+  final PeopleCubit? peopleCubit;
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    // final user = FirebaseAuth.instance.currentUser;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Expanded(
-        //   flex: 2,
-        //   child: CustomVerticalTabs(),
-        // ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Expanded(
           flex: 7,
           child: ConditionalBuilder(
@@ -49,13 +43,14 @@ class BodyHomeScreenWeb extends StatelessWidget {
             fallback: (context) => const ShimmerLoading(),
             builder: (BuildContext context) => Column(
               children: [
-                appBarHomePage(context, tamwenCubit!),
+                appBarHomePage(context, peopleCubit!),
                 Expanded(
                   child: AnimationLimiter(
                     child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        childAspectRatio: 3 / 1,
+                        childAspectRatio: 3 / 1.7,
                         // crossAxisSpacing: 1,
                         // mainAxisSpacing: 1,
                       ),
@@ -81,7 +76,7 @@ class BodyHomeScreenWeb extends StatelessWidget {
                                   children: [
                                     SlidableAction(
                                       onPressed: (context) async {
-                                        await tamwenCubit!.deleteUser(user);
+                                        await peopleCubit!.deleteUser(user);
                                       },
                                       backgroundColor: const Color(0xFFFE4A49),
                                       foregroundColor: Colors.white,

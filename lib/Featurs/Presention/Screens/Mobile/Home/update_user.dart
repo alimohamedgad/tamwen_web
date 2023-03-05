@@ -2,11 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tamwen_web/Featurs/Core/App_String/strings.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/Custom_Text/custom_text.dart';
 
 import '../../../../Core/app_strings.dart';
 import '../../../../Data/model/user_model.dart';
-import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../Cubits/People_Cubit/people_cubit.dart';
+import '../../../Cubits/People_Cubit/people_state.dart';
 import '../Widgets/CustomButton/custom_button.dart';
 import '../Widgets/CustomDropDown/custom_drop_button.dart';
 import '../Widgets/custom_text_field.dart';
@@ -31,7 +33,7 @@ class _UpdateUserState extends State<UpdateUser> {
   GlobalKey<FormState> key = GlobalKey<FormState>();
   @override
   void initState() {
-    var cubit = TamwenCubit.get(context);
+    var cubit = PeopleCubit.get(context);
 
     _nameController = TextEditingController(text: widget.users.name);
     passwordController =
@@ -45,9 +47,9 @@ class _UpdateUserState extends State<UpdateUser> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TamwenCubit, TamwenState>(
+    return BlocBuilder<PeopleCubit, PeopleState>(
       builder: (context, state) {
-        var cubit = TamwenCubit.get(context);
+        var cubit = PeopleCubit.get(context);
 
         return Scaffold(
           appBar: AppBar(
@@ -84,9 +86,9 @@ class _UpdateUserState extends State<UpdateUser> {
                     CustomDropDownField(
                       selectVaule: cubit.numMainPeopleSelected,
                       hint: AppStrings.numberOfMainPeople,
-                      items: cubit.numberOfMainPeropleList.map((e) {
+                      items: listFromZeroTo9.map((e) {
                         return DropdownMenuItem(
-                          value: e,
+                          value: '$e',
                           child: CustomText(
                             text: "${AppStrings.numberOfMainPeople} "
                                 " = $e${AppStrings.onePeople}",
@@ -101,9 +103,9 @@ class _UpdateUserState extends State<UpdateUser> {
                     CustomDropDownField(
                       selectVaule: cubit.numExtraPeopleSelected,
                       hint: AppStrings.numberOfExtraPeople,
-                      items: cubit.numberOfMainPeropleList.map((e) {
+                      items: listFromZeroTo9.map((e) {
                         return DropdownMenuItem(
-                          value: e,
+                          value: '$e',
                           child: CustomText(
                             text: "${AppStrings.numberOfExtraPeople} "
                                 " = $e${AppStrings.onePeople}",

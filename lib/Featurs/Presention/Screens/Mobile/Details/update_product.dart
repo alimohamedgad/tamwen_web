@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Core/app_strings.dart';
 import 'package:tamwen_web/Featurs/Data/model/details_models.dart';
+import 'package:tamwen_web/Featurs/Presention/Cubits/People_Cubit/people_state.dart';
 import 'package:tamwen_web/Featurs/Presention/Cubits/Product_cubit/product_cubit.dart';
 
-import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../../Core/App_String/strings.dart';
+import '../../../Cubits/People_Cubit/people_cubit.dart';
 import '../Widgets/CustomButton/custom_button.dart';
 import '../Widgets/CustomDropDown/custom_drop_button.dart';
 import '../Widgets/Custom_Text/custom_text.dart';
@@ -34,19 +36,19 @@ class _UpdateProductState extends State<UpdateProduct> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    TamwenCubit.get(context).selectedProductName = widget.details.nameProduct;
+    PeopleCubit.get(context).selectedProductName = widget.details.nameProduct;
     _priceProductContoller =
         TextEditingController(text: "${widget.details.price}");
-    TamwenCubit.get(context).selectedQuantite = widget.details.quantity;
-    TamwenCubit.get(context).selectedImage = widget.details.image;
+    PeopleCubit.get(context).selectedQuantite = widget.details.quantity;
+    PeopleCubit.get(context).selectedImage = widget.details.image;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TamwenCubit, TamwenState>(
+    return BlocBuilder<PeopleCubit, PeopleState>(
       builder: (context, state) {
-        var cubit = TamwenCubit.get(context);
+        var cubit = PeopleCubit.get(context);
         return Scaffold(
           appBar: AppBar(
             elevation: 0.0,
@@ -85,7 +87,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                       },
                       selectVaule: cubit.selectedImage,
                       hint: AppStrings.choiceProductImage,
-                      items: cubit.imageWithNameProductList.map((e) {
+                      items: imageWithNameProductList.map((e) {
                         return DropdownMenuItem(
                           value: e.image,
                           child: Row(
@@ -109,7 +111,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                     CustomDropDownField(
                       selectVaule: cubit.selectedQuantite,
                       hint: AppStrings.choiceQuantite,
-                      items: cubit.quantiteList.map((e) {
+                      items: quantiteList.map((e) {
                         return DropdownMenuItem(
                           value: e,
                           child: CustomText(
@@ -138,22 +140,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                     const SizedBox(height: 10),
                     CustomButton(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          widget.productCubit
-                              .updateProduct(
-                            DetailsModel(
-                              id: widget.details.id,
-                              nameProduct: cubit.selectedProductName,
-                              price: double.parse(_priceProductContoller!.text),
-                              quantity: cubit.selectedQuantite!,
-                              image: cubit.selectedImage,
-                            ),
-                            widget.idUser!,
-                          )
-                              .then((value) {
-                            Navigator.pop(context);
-                          });
-                        }
+                        updateProduct(cubit, context);
                       },
                       text: AppStrings.editProduct,
                     )
@@ -165,5 +152,24 @@ class _UpdateProductState extends State<UpdateProduct> {
         );
       },
     );
+  }
+
+  void updateProduct(PeopleCubit cubit, BuildContext context) {
+    if (formKey.currentState!.validate()) {
+      widget.productCubit
+          .updateProduct(
+        DetailsModel(
+            id: widget.details.id,
+            nameProduct: cubit.selectedProductName,
+            price: double.parse(_priceProductContoller!.text),
+            quantity: cubit.selectedQuantite!,
+            image: cubit.selectedImage,
+            dateTime: DateTime.now().month),
+        widget.idUser!,
+      )
+          .then((value) {
+        Navigator.pop(context);
+      });
+    }
   }
 }

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tamwen_web/Featurs/Core/Responsive/Device/enums_device.dart';
+import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Admin/home_admin.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/utils.dart';
 import '../../../Cubits/Login_Cubit/login_cubit.dart';
@@ -34,10 +34,18 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class LoginWidget extends StatelessWidget {
+class LoginWidget extends StatefulWidget {
   const LoginWidget({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<LoginWidget> createState() => _LoginWidgetState();
+}
+
+class _LoginWidgetState extends State<LoginWidget> {
+  bool isAdmin = false;
+  final adminPassword = '01112723668';
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +53,18 @@ class LoginWidget extends StatelessWidget {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    var loginCubit = context.read<LoginCubit>();
+
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginLoading) {
           // Utils.snackBar('يرجي الانتظار', Colors.green);
         } else if (state is LoginSuccess) {
-          customNavPush(const HomePage(), context);
+          if (loginCubit.isAdmin) {
+            customNavReplace(const AdminPanel(), context);
+          } else {
+            customNavPush(const HomePage(), context);
+          }
         } else if (state is LoginFailure) {
           Utils.snackBar(state.erorrMessage, Colors.red);
         }
@@ -58,16 +72,20 @@ class LoginWidget extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(),
-          body: Form(
-            key: formKey,
-            child: SingleChildScrollView(
+          body: SingleChildScrollView(
+            child: Form(
+              key: formKey,
               child: Container(
-                height: 350.h,
+                height: 400.h,
                 margin: const EdgeInsets.fromLTRB(10, 100, 10, 0),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.r),
-                  color: AppColors.textColor,
+                  // color: AppColors.textColor,
+                  gradient: const LinearGradient(colors: [
+                    AppColors.textColor,
+                    AppColors.red,
+                  ]),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -112,6 +130,28 @@ class LoginWidget extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 10.h),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          CustomText(
+                              text: loginCubit.isAdmin == true
+                                  ? 'مسئوول'
+                                  : 'مستخدم'),
+                          Checkbox(
+                            value: loginCubit.isAdmin,
+                            activeColor: loginCubit.isAdmin == true
+                                ? Colors.black
+                                : Colors.white,
+                            onChanged: (val) {
+                              setState(() {
+                                loginCubit.isAdmin = val!;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                     CustomButton(
                       onPressed: () async {
                         var loginCubit = BlocProvider.of<LoginCubit>(context);

@@ -6,9 +6,8 @@ import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Login/login_screen.
 
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/app_strings.dart';
-import '../../../../Data/model/user_model.dart';
 import '../../../Cubits/Login_Cubit/login_cubit.dart';
-import '../../../Cubits/Tamwen_Cubit/tamwen_cubit.dart';
+import '../../../Cubits/People_Cubit/people_cubit.dart';
 import '../Widgets/Custom_Text/custom_text.dart';
 import '../Widgets/custom_list_tile.dart';
 import '../Widgets/navigator.dart';
@@ -20,10 +19,10 @@ import 'Product_Screen/products_screen.dart';
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({
     Key? key,
-    required this.tamwenCubit,
+    required this.peopleCubit,
   }) : super(key: key);
 
-  final TamwenCubit tamwenCubit;
+  final PeopleCubit peopleCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class DrawerScreen extends StatelessWidget {
     return Drawer(
       child: Material(
         color: AppColors.primaryColor,
-        child: DrawerBody(user: user, tamwenCubit: tamwenCubit),
+        child: DrawerBody(user: user, peopleCubit: peopleCubit),
       ),
     );
   }
@@ -42,11 +41,11 @@ class DrawerBody extends StatelessWidget {
   const DrawerBody({
     Key? key,
     required this.user,
-    required this.tamwenCubit,
+    required this.peopleCubit,
   }) : super(key: key);
 
   final User? user;
-  final TamwenCubit tamwenCubit;
+  final PeopleCubit peopleCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,7 @@ class DrawerBody extends StatelessWidget {
             icon: Icons.add_card_sharp,
             text: AppStrings.addNewUser,
             onTap: () {
-              customNavPush(const AddNewPeople(), context);
+              customNavPush(AddNewPeople(peopleCubit: peopleCubit), context);
             },
           ),
           CustomListTileImageTrailing(
@@ -88,7 +87,7 @@ class DrawerBody extends StatelessWidget {
             text: AppStrings.totalPerosns,
             onTap: () {
               customNavPush(
-                  TotalCardsScreen(users: tamwenCubit.users), context);
+                  TotalCardsScreen(users: peopleCubit.users), context);
             },
           ),
           CustomListTile(
@@ -96,7 +95,7 @@ class DrawerBody extends StatelessWidget {
               text: AppStrings.products,
               onTap: () {
                 customNavPush(
-                  ProductsScreen(userModel: tamwenCubit.users),
+                  ProductsScreen(userModel: peopleCubit.users[0]),
                   context,
                 );
               }),
@@ -105,7 +104,7 @@ class DrawerBody extends StatelessWidget {
             text: AppStrings.signOut,
             onTap: () async {
               var loginCubit = BlocProvider.of<LoginCubit>(context);
-              customNavPush(const LoginScreen(), context);
+              customNavReplace(const LoginScreen(), context);
               await loginCubit.signOut();
             },
           ),
