@@ -13,7 +13,7 @@ DeviceType getDeviceTyp(MediaQueryData mediaQueryData) {
 
   if (width >= 950) {
     return DeviceType.web;
-  } else if (width >= 600) {
+  } else if (width >= 450) {
     return DeviceType.tablet;
   }
   return DeviceType.mobile;

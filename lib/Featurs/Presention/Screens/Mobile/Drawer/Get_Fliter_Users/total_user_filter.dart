@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Presention/Cubits/People_Cubit/people_state.dart';
 
 import '../../../../Cubits/People_Cubit/people_cubit.dart';
-import 'body_screen_defrenet_people.dart';
+import 'body_defrenet_people.dart';
 
 class TotalPeopeEqualOne extends StatelessWidget {
   final Object isEqualTo;

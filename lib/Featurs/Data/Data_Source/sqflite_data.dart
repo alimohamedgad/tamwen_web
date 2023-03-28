@@ -22,11 +22,8 @@
 //   }
 
 //   Future<Database> initilDb() async {
-//     //  ده بتعمل موقع افتراضي ل الداتا بيز
 //     String dataBasePath = await getDatabasesPath();
-//     //   ده علشان اقوم بحفظ المسار للداتا
 //     String path = join(dataBasePath, 'Cards.db');
-//     //  ده بقي اللى بتعملى او بتفتحلى الداتا بيز علشان اعمل دانا بيز
 //     return await openDatabase(path,
 //         onCreate: _onCreate, version: 1, onUpgrade: onUpgrade);
 //   }
@@ -58,25 +55,24 @@
 // ''');
 //   }
 
-//   // Create
-//   // Future<int> insert(Tamwen user) async {
-//   //   var myDb = await getDb;
-//   //   int response = await myDb!.insert(
-//   //     columnNames,
-//   //     user.toJson(),
-//   //     conflictAlgorithm: ConflictAlgorithm.replace,
-//   //   );
-//   //   return response;
-//   // }
+   // Create
+   // Future<int> insert(Tamwen user) async {
+   //   var myDb = await getDb;
+   //   int response = await myDb!.insert(
+   //     columnNames,
+   //     user.toJson(),
+   //     conflictAlgorithm: ConflictAlgorithm.replace,
+   //   );
+   //   return response;
+  // }
 
-//   // // Read All user
-//   // Future<List<Tamwen>> getAllData() async {
-//   //   var myDb = await getDb;
-//   //   List<Map> response = await myDb!.query(columnNames);
-//   //   return response.isNotEmpty
-//   //       ? response.map((user) => Tamwen.fromJson(user)).toList()
-//   //       : [];
-//   // }
+ // Read All user
+   // Future<List<Tamwen>> getAllData() async {
+   //   var myDb = await getDb;
+ //   List<Map> response = await myDb!.query(columnNames);
+ //   return response.isNotEmpty
+  //       ? response.map((user) => Tamwen.fromJson(user)).toList()   //       : [];
+  // }
 
 //   Future<int> insertDetails(DetailsData details) async {
 //     var myDb = await getDb;

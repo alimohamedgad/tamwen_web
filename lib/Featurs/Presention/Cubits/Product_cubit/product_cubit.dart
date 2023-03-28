@@ -1,45 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tamwen_web/Featurs/Core/Services/utils.dart';
 import '../../../Core/AppColors/app_colors.dart';
-import '../../../Core/utils.dart';
-import '../../../Data/model/details_models.dart';
+import '../../../Data/model/product.dart';
 import '../../../Data/model/user_model.dart';
 
 part 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
   ProductCubit() : super(ProductInitial());
-  var db = FirebaseFirestore.instance;
-  List<DetailsModel> details = [];
-  List<DetailsModel> detailsFilter = [];
-  getAllProducts(UserModel userModel) {
+
+  static ProductCubit get(context) => BlocProvider.of(context);
+
+  final _db = FirebaseFirestore.instance.collection('users');
+  List<ProductModel> product = [];
+  List<ProductModel> productFilter = [];
+
+  getProduct(UserModel userModel) {
     emit(GetProductsLoading());
     try {
-      db
-          .collection('users')
-          .doc(userModel.id)
-          .collection('products')
-          .snapshots()
-          .listen((event) {
-        details.clear();
-        for (var product in event.docs) {
-          details.add(DetailsModel.fromJson(product));
+      _db.doc(userModel.id).collection('products').snapshots().listen((event) {
+        product.clear();
+        for (var e in event.docs) {
+          product.add(ProductModel.fromJson(e));
         }
-        emit(GetProductsSuccess(details: details));
+        emit(GetProductsSuccess());
       });
     } on Exception catch (e) {
       emit(GetProductsSFaliure());
     }
   }
 
-  getAllProducts2() {
+  getAllProducts() {
     emit(FilterProductLoading());
     try {
+      final db = FirebaseFirestore.instance;
       db.collectionGroup('products').snapshots().listen((event) {
-        detailsFilter.clear();
+        productFilter.clear();
         for (var product in event.docs) {
-          detailsFilter.add(DetailsModel.fromJson(product));
+          productFilter.add(ProductModel.fromJson(product));
           emit(FilterProductSuccess());
         }
       });
@@ -48,9 +48,9 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future addProduct(DetailsModel model, String id) async {
+  Future addProduct(ProductModel model, String id) async {
     emit(ProductAddLoading());
-    final docuser = db.collection('users').doc(id).collection('products').doc();
+    final docuser = _db.doc(id).collection('products').doc();
     model.id = docuser.id;
 
     try {
@@ -63,15 +63,9 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  deleteProduct(String id, String idProduct, DetailsModel details) {
+  deleteProduct(String id, ProductModel details) {
     emit(DeleteProductLoading());
-    db
-        .collection('users')
-        .doc(id)
-        .collection('products')
-        .doc(idProduct)
-        .delete()
-        .then((value) {
+    _db.doc(id).collection('products').doc(details.id).delete().then((value) {
       Utils.snackBar(
           "لقد قمت ب حذف ${details.nameProduct} من القائمة  ", AppColors.red);
       emit(DeleteProductSuccess());
@@ -81,30 +75,17 @@ class ProductCubit extends Cubit<ProductState> {
     });
   }
 
-  Future updateProduct(DetailsModel detailsModel, String userID) async {
-    final docRef = db
-        .collection('users')
-        .doc(userID)
-        .collection('products')
-        .doc(detailsModel.id);
-    final updateProduct = DetailsModel(
-            id: detailsModel.id,
-            nameProduct: detailsModel.nameProduct,
-            quantity: detailsModel.quantity,
-            image: detailsModel.image,
-            price: detailsModel.price,
-            dateTime: DateTime.now().month)
-        .toJsonDoc();
+  Future updateProduct(ProductModel productModel, String userID) async {
+    final docRef = _db.doc(userID).collection('products').doc(productModel.id);
     try {
-      await docRef.update(updateProduct);
+      await docRef.update(productModel.toJsonDoc());
       emit(ProductUpdateSuccess());
     } catch (e) {
-      print(e.toString());
       emit(ProductUpdateFailure());
     }
   }
 
-  getTotalPrice(List<DetailsModel> detailsList) {
+  getTotalPrice(List<ProductModel> detailsList) {
     double totalPrice = 0.0;
     for (var element in detailsList) {
       totalPrice += element.price * element.quantity;
@@ -112,14 +93,11 @@ class ProductCubit extends Cubit<ProductState> {
     return totalPrice;
   }
 
-  List<DetailsModel> product = [];
-  getCollocProduct() {
-    db.collection('Products').snapshots().listen((event) {
-      product.clear();
-      for (var data in event.docs) {
-        product.add(DetailsModel.fromJson(data));
-      }
-      emit(Product());
-    });
+  double maxPrice = 12;
+
+  double value = 0;
+  void changeValue(double newValue) {
+    value = newValue;
+    emit(NewValueState(value: value));
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tamwen_web/Featurs/Core/AppColors/app_colors.dart';
+import '../AppColors/app_colors.dart';
 
 ThemeData themeDataLight() {
   return ThemeData(

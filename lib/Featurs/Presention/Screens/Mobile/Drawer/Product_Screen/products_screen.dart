@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Data/model/user_model.dart';
 import 'package:tamwen_web/Featurs/Presention/Cubits/Product_cubit/product_cubit.dart';
-import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/Custom_Text/custom_text.dart';
+import 'package:tamwen_web/Featurs/Presention/Widgets/Custom_Text/custom_text.dart';
 
-import '../../../../../Data/model/details_models.dart';
+import '../../../../../Data/model/product.dart';
 
 class ProductsScreen extends StatefulWidget {
   final UserModel userModel;
@@ -21,7 +21,7 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   @override
   void initState() {
-    BlocProvider.of<ProductCubit>(context).getAllProducts2();
+    BlocProvider.of<ProductCubit>(context).getAllProducts();
     super.initState();
   }
 
@@ -32,8 +32,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
       body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {
           var productCubit = BlocProvider.of<ProductCubit>(context);
-          final filteredClassList = productCubit.detailsFilter
-              .fold<Map<String, DetailsModel>>({}, (map, product) {
+          final filteredClassList = productCubit.productFilter
+              .fold<Map<String, ProductModel>>({}, (map, product) {
                 map.putIfAbsent(product.nameProduct!, () => product);
                 return map;
               })
@@ -47,9 +47,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
               return Card(
                 child: ListTile(
                   title: CustomText(text: '${product.nameProduct}'),
+                  leading: Image.asset(
+                    '${product.image}',
+                    height: 30,
+                  ),
                   trailing: CustomText(
                     text:
-                        '${getTotlaProducts(productCubit.detailsFilter, product.nameProduct!)}',
+                        '${getTotlaProducts(productCubit.productFilter, product.nameProduct!)}',
                   ),
                   // trailing: CustomText(
                   //   text: '${product.quantity}',
@@ -63,7 +67,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     );
   }
 
-  getTotlaProducts(List<DetailsModel> detailsList, String nameProduct) {
+  getTotlaProducts(List<ProductModel> detailsList, String nameProduct) {
     double totalPrice = 0.0;
     for (var product
         in detailsList.where((element) => element.nameProduct == nameProduct)) {

@@ -2,16 +2,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tamwen_web/Featurs/Core/App_String/product_string.dart';
+import 'package:tamwen_web/Featurs/Core/Services/global_method.dart';
 import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Login/login_screen.dart';
 
 import '../../../../Core/AppColors/app_colors.dart';
-import '../../../../Core/app_strings.dart';
+import '../../../../Core/App_String/app_strings.dart';
 import '../../../Cubits/Login_Cubit/login_cubit.dart';
 import '../../../Cubits/People_Cubit/people_cubit.dart';
-import '../Widgets/Custom_Text/custom_text.dart';
-import '../Widgets/custom_list_tile.dart';
-import '../Widgets/navigator.dart';
-import '../Home/add_user.dart';
+import '../../../Widgets/Custom_Text/custom_text.dart';
+import '../../../Widgets/custom_list_tile.dart';
+import '../Home/add_client.dart';
 import '../Home/card_screen.dart';
 import 'FlourScreen/flour_screen.dart';
 import 'Product_Screen/products_screen.dart';
@@ -30,7 +31,7 @@ class DrawerScreen extends StatelessWidget {
 
     return Drawer(
       child: Material(
-        color: AppColors.primaryColor,
+        color: AppColors.primaryColor4,
         child: DrawerBody(user: user, peopleCubit: peopleCubit),
       ),
     );
@@ -56,10 +57,15 @@ class DrawerBody extends StatelessWidget {
             accountName: const CustomText(
               text: 'الحساب الخاص بك',
             ),
+            currentAccountPicture: const CircleAvatar(
+              backgroundColor: Colors.white,
+            ),
             accountEmail: CustomText(
               text: user!.email!,
             ),
-            decoration: const BoxDecoration(color: AppColors.textColor),
+            decoration: const BoxDecoration(
+              color: AppColors.textColor,
+            ),
           ),
           CustomListTile(
             icon: Icons.home,
@@ -68,44 +74,55 @@ class DrawerBody extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          const Divider(color: AppColors.white),
           CustomListTile(
             icon: Icons.add_card_sharp,
             text: AppStrings.addNewUser,
             onTap: () {
-              customNavPush(AddNewPeople(peopleCubit: peopleCubit), context);
-            },
-          ),
-          CustomListTileImageTrailing(
-            image: 'assets/img/flour.png',
-            text: AppStrings.amountFlour,
-            onTap: () {
-              customNavPush(const FlourScreen(), context);
+              GlobalMethods.navTo(AddClient(peopleCubit: peopleCubit), context);
             },
           ),
           CustomListTile(
             icon: Icons.people_alt,
             text: AppStrings.totalPerosns,
             onTap: () {
-              customNavPush(
+              GlobalMethods.navTo(
                   TotalCardsScreen(users: peopleCubit.users), context);
             },
           ),
+          const Divider(color: AppColors.white),
+          CustomListTileImageTrailing(
+            image: 'assets/img/flour.png',
+            text: ProductString.amountFlour,
+            onTap: () {
+              GlobalMethods.navTo(const FlourScreen(), context);
+            },
+          ),
+          const Divider(color: AppColors.white),
           CustomListTile(
               icon: Icons.production_quantity_limits,
-              text: AppStrings.products,
+              text: ProductString.products,
               onTap: () {
-                customNavPush(
+                GlobalMethods.navTo(
                   ProductsScreen(userModel: peopleCubit.users[0]),
                   context,
                 );
               }),
+          const Divider(color: AppColors.white),
           CustomListTile(
             icon: Icons.logout_outlined,
-            text: AppStrings.signOut,
+            text: AppStringLogin.signOut,
             onTap: () async {
               var loginCubit = BlocProvider.of<LoginCubit>(context);
-              customNavReplace(const LoginScreen(), context);
-              await loginCubit.signOut();
+              await GlobalMethods.warningDialog(
+                context,
+                content: 'هل تريد تسجيل الخروج ؟',
+                title: '',
+                onTap: () async {
+                  GlobalMethods.navRemoveUntil(const LoginScreen(), context);
+                  await loginCubit.signOut(context);
+                },
+              );
             },
           ),
         ],

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'product_cubit.dart';
 
 abstract class ProductState extends Equatable {
@@ -9,11 +10,7 @@ abstract class ProductState extends Equatable {
 
 class ProductInitial extends ProductState {}
 
-class GetProductsSuccess extends ProductState {
-  final List<DetailsModel> details;
-
-  const GetProductsSuccess({required this.details});
-}
+class GetProductsSuccess extends ProductState {}
 
 class GetProductsSFaliure extends ProductState {}
 
@@ -42,3 +39,14 @@ class FilterProductLoading extends ProductState {}
 class FilterProductSuccess extends ProductState {}
 
 class FilterProductErorr extends ProductState {}
+
+class GetDataByMonth extends ProductState {}
+
+class MaxState extends ProductState {}
+
+class NewValueState extends ProductState {
+  final double value;
+  const NewValueState({
+    required this.value,
+  });
+}

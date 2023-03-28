@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Data/model/user_model.dart';
 import 'package:tamwen_web/Featurs/Presention/Cubits/Flour_Cubit/flour_cubit.dart';
-import 'package:tamwen_web/Featurs/Presention/Screens/Mobile/Widgets/custom_text_field.dart';
+import 'package:tamwen_web/Featurs/Presention/Widgets/custom_text_field.dart';
 
 import '../../../../../Data/model/flour_model.dart';
-import '../../Widgets/CustomButton/custom_button.dart';
-import '../../Widgets/CustomDropDown/custom_drop_button.dart';
+import '../../../../Widgets/CustomButton/custom_button.dart';
+import '../../../../Widgets/CustomDropDown/custom_drop_button.dart';
 
 class AddFlourScreen extends StatelessWidget {
   final UserModel users;

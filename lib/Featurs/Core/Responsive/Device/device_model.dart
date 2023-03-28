@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tamwen_web/Featurs/Core/Responsive/Device/enums_device.dart';
+import 'enums_device.dart';
 
 class DeviceInfoModel {
   final Orientation? orientation;

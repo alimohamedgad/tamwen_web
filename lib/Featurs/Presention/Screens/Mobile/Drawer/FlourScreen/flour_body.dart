@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:tamwen_web/Featurs/Presention/Cubits/Flour_Cubit/flour_cubit.dart';
+import '../../../../../Core/Services/global_method.dart';
+import '../../../../Cubits/Flour_Cubit/flour_cubit.dart';
+import '../../../../../Core/App_String/product_string.dart';
 import '../../../../../Data/model/flour_model.dart';
 import 'update_flour.dart';
 import '../../../../../Core/AppColors/app_colors.dart';
-import '../../../../../Core/app_strings.dart';
-import '../../Widgets/Custom_Text/custom_text.dart';
-import '../../Widgets/navigator.dart';
+import '../../../../../Core/App_String/app_strings.dart';
+import '../../../../Widgets/Custom_Text/custom_text.dart';
+import '../../../../Widgets/navigator.dart';
 
 class BodyFlourScreen extends StatelessWidget {
   const BodyFlourScreen({
@@ -66,7 +68,7 @@ class BodyFlourScreen extends StatelessWidget {
                             const SizedBox(width: 4),
                             SlidableAction(
                               onPressed: (context) {
-                                customNavPush(
+                                GlobalMethods.navTo(
                                     UpdateFlour(flourModel: flourItem),
                                     context);
                               },
@@ -105,7 +107,7 @@ class BodyFlourScreen extends StatelessWidget {
                               ),
                               subtitle: CustomText(
                                 text:
-                                    "${AppStrings.amountFloat}${flourItem.amountFlour} ك ",
+                                    "${ProductString.amountFloat}${flourItem.amountFlour} ك ",
                               ),
                               trailing: CustomText(text: flourItem.round),
                             ),

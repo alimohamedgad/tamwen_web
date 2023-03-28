@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tamwen_web/Featurs/Core/utils.dart';
-import 'package:tamwen_web/Featurs/Data/model/flour_model.dart';
+import 'package:tamwen_web/Featurs/Core/Services/utils.dart';
 
 import '../../../Core/AppColors/app_colors.dart';
+import '../../../Data/model/flour_model.dart';
 
 part 'flour_state.dart';
 
