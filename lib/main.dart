@@ -3,16 +3,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tamwen_web/Featurs/Core/Services/utils.dart';
-import 'Featurs/Core/Responsive/Device/info_widget.dart';
-import 'Featurs/Presention/Cubits/Flour_Cubit/flour_cubit.dart';
-import 'Featurs/Presention/Cubits/People_Cubit/people_cubit.dart';
-import 'Featurs/Core/Get_it/get_it.dart';
-import 'Featurs/Core/Responsive/Device/device_model.dart';
-import 'Featurs/Core/Theme/theme_light.dart';
-import 'Featurs/Presention/Cubits/Login_Cubit/login_cubit.dart';
-import 'Featurs/Presention/Cubits/Product_cubit/product_cubit.dart';
-import 'Featurs/Presention/Screens/Mobile/Login/login_screen.dart';
+import 'package:tamwen_web/Featurs/Controller/Login_Cubit/login_cubit.dart';
+import 'package:tamwen_web/Featurs/Controller/People_Cubit/people_cubit.dart';
+import 'package:tamwen_web/Core/Services/utils.dart';
+import 'Featurs/Controller/Flour_Cubit/flour_cubit.dart';
+import 'Featurs/Controller/Product_cubit/product_cubit.dart';
+import 'Core/Responsive/Device/info_widget.dart';
+import 'Core/Get_it/get_it.dart';
+import 'Core/Responsive/Device/device_model.dart';
+import 'Core/Theme/theme_light.dart';
+import 'Featurs/View/Screens/auth/login_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
