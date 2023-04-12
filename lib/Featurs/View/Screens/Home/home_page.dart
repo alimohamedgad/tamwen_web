@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,8 +8,9 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:tamwen_web/Core/AppColors/app_colors.dart';
 import 'package:tamwen_web/Core/App_String/app_strings.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
+import 'package:tamwen_web/Featurs/View/Screens/Admin/home_admin.dart';
 import 'package:tamwen_web/Featurs/View/Screens/Home/update_client.dart';
-import 'package:tamwen_web/Featurs/View/Screens/Product/details_screen.dart';
+import 'package:tamwen_web/Featurs/View/Screens/Product/product_details.dart';
 import 'package:tamwen_web/Featurs/View/Widgets/Custom_Text/custom_text.dart';
 import '../../../Controller/People_Cubit/people_cubit.dart';
 import '../../../Controller/People_Cubit/people_state.dart';
@@ -34,34 +36,37 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // final user = ;
+
     return BlocBuilder<PeopleCubit, PeopleState>(
       builder: (context, state) {
         var peopleCubit = PeopleCubit.get(context);
 
         return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              elevation: 0.0,
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    showSearch(
-                      context: context,
-                      delegate: CustomSearch(
-                          users: peopleCubit.users, cubit: peopleCubit),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.search,
-                  ),
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0.0,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: CustomSearch(
+                        users: peopleCubit.users, cubit: peopleCubit),
+                  );
+                },
+                icon: const Icon(
+                  Icons.search,
                 ),
-              ],
-            ),
-            drawer: DrawerScreen(peopleCubit: peopleCubit),
-            body: ConditionalBuilder(
-              condition: peopleCubit.users.isNotEmpty,
-              fallback: (context) => const ShimmerLoading(),
-              builder: (BuildContext context) => Column(
+              ),
+            ],
+          ),
+          drawer: DrawerScreen(peopleCubit: peopleCubit),
+          body: ConditionalBuilder(
+            condition: peopleCubit.users.isNotEmpty,
+            fallback: (context) => const ShimmerLoading(),
+            builder: (BuildContext context) {
+              return Column(
                 children: [
                   Expanded(
                     child: AnimationLimiter(
@@ -171,8 +176,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ],
-              ),
-            ));
+              );
+              // } else {
+              //   return ShimmerLoading();
+              // }
+            },
+          ),
+        );
       },
     );
   }

@@ -13,7 +13,7 @@ import 'package:tamwen_web/Featurs/View/Screens/Home/update_client.dart';
 import 'package:tamwen_web/Featurs/View/Widgets/Custom_Text/custom_text.dart';
 import 'package:tamwen_web/Featurs/View/Widgets/Simmer_Loading/shimmer.dart';
 import '../total_price_for_persons.dart';
-import '../../Screens/Product/details_screen.dart';
+import '../../Screens/Product/product_details.dart';
 
 class SearchWidget extends StatelessWidget {
   const SearchWidget({

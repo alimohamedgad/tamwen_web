@@ -7,7 +7,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:tamwen_web/Core/App_String/app_strings.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
 import 'package:tamwen_web/Featurs/Controller/People_Cubit/people_cubit.dart';
-import 'package:tamwen_web/Featurs/View/Screens/Product/details_screen.dart';
+import 'package:tamwen_web/Featurs/View/Screens/Product/product_details.dart';
 import 'package:tamwen_web/Featurs/View/Widgets/Custom_Text/custom_text.dart';
 
 import '../../../../../Core/AppColors/app_colors.dart';
@@ -36,21 +36,22 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PeopleCubit, PeopleState>(
-      builder: (context, state) {
-        var peopleCubit = PeopleCubit.get(context);
-        return Scaffold(
-          appBar: AppBar(),
-          body: ConditionalBuilder(
-            condition: peopleCubit.differentUser.isNotEmpty,
-            fallback: (context) => const Center(
-              child: CustomText(
-                text: AppStrings.thisListIsEmpty,
-                color: AppColors.white,
-                fontSize: 25,
-              ),
-            ),
-            builder: (BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: ConditionalBuilder(
+        condition: PeopleCubit.get(context).differentUser.isNotEmpty,
+        fallback: (context) => const Center(
+          child: CustomText(
+            text: AppStrings.thisListIsEmpty,
+            color: AppColors.white,
+            fontSize: 25,
+          ),
+        ),
+        builder: (BuildContext context) {
+          return BlocBuilder<PeopleCubit, PeopleState>(
+            builder: (context, state) {
+              var peopleCubit = PeopleCubit.get(context);
+
               return AnimationLimiter(
                 child: ListView.builder(
                   itemCount: peopleCubit.differentUser.length,
@@ -156,9 +157,9 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
                 ),
               );
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
