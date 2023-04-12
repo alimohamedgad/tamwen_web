@@ -167,7 +167,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                             "${AppStrings.totalprice}$totalPriceOfQuantityPurchased"),
                                     CustomText(
                                         text:
-                                            "${AppStrings.amount}${(details.quantity as double).toInt()}"),
+                                            "${AppStrings.amount}${(details.quantity).toInt()}"),
                                   ],
                                 ),
                               ),

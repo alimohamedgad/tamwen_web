@@ -3,9 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tamwen_web/Core/firebase_const.dart';
 import 'package:tamwen_web/Featurs/Controller/Login_Cubit/login_cubit.dart';
 import 'package:tamwen_web/Featurs/Controller/People_Cubit/people_cubit.dart';
 import 'package:tamwen_web/Core/Services/utils.dart';
+import 'package:tamwen_web/Featurs/View/Screens/Home/home_page.dart';
 import 'Featurs/Controller/Flour_Cubit/flour_cubit.dart';
 import 'Featurs/Controller/Product_cubit/product_cubit.dart';
 import 'Core/Responsive/Device/info_widget.dart';
@@ -20,11 +22,14 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
   ServiceLocator().init();
-  runApp(EasyLocalization(
+  runApp(
+    EasyLocalization(
       supportedLocales: const [Locale('ar')],
       fallbackLocale: const Locale('ar'),
       path: 'assets/translate',
-      child: const TamwenApp()));
+      child: const TamwenApp(),
+    ),
+  );
 }
 
 class TamwenApp extends StatelessWidget {
@@ -60,7 +65,7 @@ class TamwenApp extends StatelessWidget {
           theme: themeDataLight(),
           home: InfoWidget(
             widgetInfo: (BuildContext context, DeviceInfoModel deviceInfo) {
-              return const LoginScreen();
+              return user == null ? const LoginScreen() : HomePage();
             },
           ),
         ),

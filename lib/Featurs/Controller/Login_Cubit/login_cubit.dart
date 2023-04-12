@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Core/Services/utils.dart';
 
 import '../../../Core/AppColors/app_colors.dart';
-import '../../../Core/Services/enums.dart';
 import '../../../Core/firebase_const.dart';
 
 part 'login_state.dart';
@@ -18,14 +17,14 @@ class LoginCubit extends Cubit<LoginState> {
     required String password,
     required BuildContext context,
   }) async {
-    // showDialog(
+    // await showDialog(
     //   context: context,
     //   builder: (context) => const Center(child: CircularProgressIndicator()),
     // );
     emit(LoginLoading());
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
-      Utils.snackBar('تم تسجيل الدخول بنجاح', AppColors.green);
+      Utils.snackBar('تم تسجيل الدخول بنجاح', AppColors.green.withOpacity(0.9));
       emit(LoginSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

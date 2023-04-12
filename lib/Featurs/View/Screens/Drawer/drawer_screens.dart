@@ -27,12 +27,10 @@ class DrawerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-
     return Drawer(
       child: Material(
         color: AppColors.primaryColor4,
-        child: DrawerBody(user: user, peopleCubit: peopleCubit),
+        child: DrawerBody(peopleCubit: peopleCubit),
       ),
     );
   }
@@ -41,15 +39,15 @@ class DrawerScreen extends StatelessWidget {
 class DrawerBody extends StatelessWidget {
   const DrawerBody({
     Key? key,
-    required this.user,
     required this.peopleCubit,
   }) : super(key: key);
 
-  final User? user;
   final PeopleCubit peopleCubit;
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return SingleChildScrollView(
       child: Column(
         children: [

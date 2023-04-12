@@ -2,7 +2,10 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tamwen_web/Core/firebase_const.dart';
 import 'package:tamwen_web/Featurs/Controller/Login_Cubit/login_cubit.dart';
+import 'package:tamwen_web/Featurs/View/Screens/Admin/home_admin.dart';
+import 'package:tamwen_web/Featurs/View/Screens/Home/home_page.dart';
 import 'package:tamwen_web/Featurs/View/Widgets/Custom_Text/custom_text.dart';
 
 import '../../../../Core/AppColors/app_colors.dart';
@@ -20,11 +23,16 @@ class LoginWidget extends StatefulWidget {
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-  bool isAdmin = false;
-  final adminPassword = '01112723668';
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +42,12 @@ class _LoginWidgetState extends State<LoginWidget> {
           GlobalMethods.awesemDialog(context,
               message: state.erorrMessage, dialogType: DialogType.error);
         }
+        if (state is LoginSuccess) {
+          GlobalMethods.navTo(const HomePage(), context);
+        }
       },
       builder: (context, state) {
+        var loginCubit = BlocProvider.of<LoginCubit>(context);
         return Scaffold(
           backgroundColor: AppColors.primaryColor,
           body: Align(
@@ -106,13 +118,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           SizedBox(height: 10.h),
                           CustomButton(
                             onPressed: () async {
-                              var loginCubit =
-                                  BlocProvider.of<LoginCubit>(context);
-
                               if (formKey.currentState!.validate()) {
-                                if (emailController.text == 'admin@gmail.com' ||
-                                    passwordController.text == '01112723668') {
-                                } else {}
                                 await loginCubit.signIn(
                                   email: emailController.text.trim(),
                                   password: passwordController.text.trim(),
