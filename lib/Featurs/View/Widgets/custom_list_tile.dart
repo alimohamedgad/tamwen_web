@@ -52,7 +52,7 @@ class CustomListTileImageTrailing extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: CustomText(
-        text: text,
+        text,
         color: textColor,
         // style: TextStyle(color: textColor),
       ),

@@ -90,8 +90,8 @@ List<ProductModel> dumyProduct = [
   ProductModel(
       nameProduct: 'مرقة دجاج', id: '22', dateTime: DateTime.now().month),
 ];
-var quantiteList = [for (var i = 0; i < 51; i++) i];
-var listFromZeroTo9 = List.generate(9, (index) => index);
-var mainPeopleList = List.generate(9, (index) => index);
+final quantiteList = [for (var i = 0; i < 51; i++) i];
+final listFromZeroTo9 = [for (var i = 0; i < 9; i++) i];
+final mainPeopleList = [for (var i = 0; i < 9; i++) i];
 
-var priceForOnePerson = [for (var i = 30; i < 51; i += 5) i];
+final priceForOnePerson = [for (var i = 30; i < 51; i += 5) i];

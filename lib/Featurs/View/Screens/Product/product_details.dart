@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tamwen_web/Core/AppColors/app_colors.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
+import 'package:tamwen_web/Core/Services/utils.dart';
 import 'package:tamwen_web/Featurs/Model/user.dart';
 import 'package:tamwen_web/Featurs/View/Screens/Product/filter_product.dart';
 import 'package:tamwen_web/Featurs/View/Screens/Product/update_product.dart';
@@ -43,53 +44,49 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductCubit, ProductState>(
-      builder: (context, state) {
-        var productCubit = BlocProvider.of<ProductCubit>(context);
-        final totalPriceForOnePerson = widget.totalPrice! +
-            widget.users!.priceOfExtraPerople *
-                widget.users!.numberOfExtraPeople;
-        final hight = MediaQuery.of(context).size.height;
+    final screenSize = Utils(context).screenSize.height;
+    int totalPriceForOnePerson = getTotalPrice();
 
-        return Scaffold(
-          appBar: detailsAppbar(
-            context,
-            widget.users!,
-            productCubit,
-            widget.totalPrice ?? 0,
+    return Scaffold(
+      appBar: detailsAppbar(
+        context,
+        widget.users!,
+        widget.totalPrice ?? 0,
+      ),
+      bottomNavigationBar:
+          BottomNavigationBar(totalPriceForOnePerson: totalPriceForOnePerson),
+      body: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(35),
+            topRight: Radius.circular(35),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-              productCubit: productCubit,
-              totalPriceForOnePerson: totalPriceForOnePerson),
-          body: Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35),
+        ),
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: screenSize * 0.065,
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.white,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(' ${AppStrings.name}  ${widget.users?.name}'),
+                  CustomText('شهر :${DateTime.now().month}'),
+                ],
               ),
             ),
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: hight * 0.065,
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColors.white,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                          text: ' ${AppStrings.name}  ${widget.users?.name}'),
-                      CustomText(text: 'شهر :${DateTime.now().month}'),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
+            Expanded(
+              child: BlocBuilder<ProductCubit, ProductState>(
+                builder: (context, state) {
+                  final productCubit = BlocProvider.of<ProductCubit>(context);
+
+                  return ListView.builder(
                     itemCount: productCubit.product.length,
                     itemBuilder: (context, index) {
                       var details = productCubit.product[index];
@@ -133,16 +130,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               horizontal: 10, vertical: 7),
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.white,
-                                  blurRadius: 8,
-                                  blurStyle: BlurStyle.outer,
-                                  spreadRadius: 1,
-                                ),
-                              ]),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.white,
+                                blurRadius: 8,
+                                blurStyle: BlurStyle.outer,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
                           child: Row(
                             children: [
                               CustmeImage(
@@ -157,17 +155,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     CustomText(
-                                        text:
-                                            "${ProductString.productName}${details.nameProduct}"),
+                                        "${ProductString.productName}${details.nameProduct}"),
                                     CustomText(
-                                        text:
-                                            "${AppStrings.price}${details.price}"),
+                                        "${AppStrings.price}${details.price}"),
                                     CustomText(
-                                        text:
-                                            "${AppStrings.totalprice}$totalPriceOfQuantityPurchased"),
+                                        "${AppStrings.totalprice}$totalPriceOfQuantityPurchased"),
                                     CustomText(
-                                        text:
-                                            "${AppStrings.amount}${(details.quantity).toInt()}"),
+                                        "${AppStrings.amount}${(details.quantity).toInt()}"),
                                   ],
                                 ),
                               ),
@@ -176,20 +170,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                       );
                     },
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
+  }
+
+  int getTotalPrice() {
+    final totalPriceForOnePerson = widget.totalPrice! +
+        widget.users!.priceOfExtraPerople * widget.users!.numberOfExtraPeople;
+    return totalPriceForOnePerson;
   }
 
   AppBar detailsAppbar(
     BuildContext context,
     UserModel item,
-    ProductCubit productCubit,
     int totalPrice,
   ) {
     return AppBar(
@@ -204,19 +203,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
             const PopupMenuItem(
               value: PopMenuValue.addNewProduct,
               child: CustomText(
-                text: 'أضافة منتج جديد',
+                'أضافة منتج جديد',
               ),
             ),
             const PopupMenuItem(
               value: PopMenuValue.addFlour,
               child: CustomText(
-                text: 'أضافة دقيق ',
+                'أضافة دقيق ',
               ),
             ),
             const PopupMenuItem(
               value: PopMenuValue.month,
               child: CustomText(
-                text: 'الشهر ',
+                'الشهر ',
               ),
             ),
           ],
@@ -243,20 +242,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
 class BottomNavigationBar extends StatelessWidget {
   const BottomNavigationBar({
     Key? key,
-    required this.productCubit,
     required this.totalPriceForOnePerson,
   }) : super(key: key);
 
-  final ProductCubit productCubit;
   final int totalPriceForOnePerson;
 
   @override
   Widget build(BuildContext context) {
+    final productCubit = BlocProvider.of<ProductCubit>(context);
+
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
       title: Container(
         alignment: Alignment.bottomCenter,
-        height: 70,
+        height: 70.h,
         padding: const EdgeInsets.only(top: 7, right: 7),
         margin: const EdgeInsets.symmetric(horizontal: 6),
         width: double.infinity,
@@ -276,13 +275,13 @@ class BottomNavigationBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomText(
-              text: "${ProductString.totalPrice}"
-                  "  ${productCubit.getTotalPrice(productCubit.product)} جنية",
+              "${ProductString.totalPrice}"
+              "  ${productCubit.getTotalPrice(productCubit.product)} جنية",
               color: AppColors.white,
             ),
             CustomText(
-              text: "${ProductString.theRemainderOftheTotalPrice}"
-                  "  ${totalPriceForOnePerson - productCubit.getTotalPrice(productCubit.product)}  جنية",
+              "${ProductString.theRemainderOftheTotalPrice}"
+              "  ${totalPriceForOnePerson - productCubit.getTotalPrice(productCubit.product)}  جنية",
               color: AppColors.white,
             ),
           ],

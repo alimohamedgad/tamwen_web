@@ -36,11 +36,11 @@ class _FiterProductState extends State<FiterProduct> {
 
   @override
   Widget build(BuildContext context) {
+    final hight = MediaQuery.of(context).size.height;
     return BlocBuilder<ProductCubit, ProductState>(
       builder: (context, state) {
-        var productCubit = ProductCubit.get(context);
-        final hight = MediaQuery.of(context).size.height;
-        List filterList = productCubit.product
+        final productCubit = ProductCubit.get(context);
+        final filterList = productCubit.product
             .where((element) => element.dateTime == productCubit.maxPrice)
             .toList();
         return Scaffold(
@@ -77,102 +77,98 @@ class _FiterProductState extends State<FiterProduct> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CustomText(
-                            text: ' ${AppStrings.name}  ${widget.users.name}'),
-                        CustomText(
-                            text: 'شهر ${productCubit.maxPrice.round()}'),
+                        CustomText(' ${AppStrings.name}  ${widget.users.name}'),
+                        CustomText('شهر ${productCubit.maxPrice.round()}'),
                       ],
                     ),
                   ),
                   Expanded(
                     child: ListView.builder(
-                        itemCount: filterList.length,
-                        itemBuilder: (context, index) {
-                          var details = filterList[index];
-                          var totalPriceOfQuantityPurchased =
-                              details.price * details.quantity;
-                          return Slidable(
-                              key: UniqueKey(),
-                              startActionPane: ActionPane(
-                                extentRatio: 0.50,
-                                motion: const ScrollMotion(),
-                                children: [
-                                  SlidableAction(
-                                    onPressed: (context) {
-                                      productCubit.deleteProduct(
-                                          widget.users.id!, details);
-                                    },
-                                    backgroundColor: const Color(0xFFFE4A49),
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.delete,
-                                    label: AppStrings.remove,
-                                  ),
-                                  SlidableAction(
-                                    onPressed: (context) {
-                                      GlobalMethods.navTo(
-                                          UpdateProduct(
-                                              idUser: widget.users.id,
-                                              details: details,
-                                              productCubit: productCubit),
-                                          context);
-                                    },
-                                    backgroundColor: AppColors.black,
-                                    foregroundColor: Colors.white,
-                                    icon: Icons.edit_outlined,
-                                    label: AppStrings.edit,
-                                  ),
-                                ],
+                      itemCount: filterList.length,
+                      itemBuilder: (context, index) {
+                        final details = filterList[index];
+                        final totalPriceOfQuantityPurchased =
+                            details.price * details.quantity;
+                        return Slidable(
+                          key: UniqueKey(),
+                          startActionPane: ActionPane(
+                            extentRatio: 0.50,
+                            motion: const ScrollMotion(),
+                            children: [
+                              SlidableAction(
+                                onPressed: (context) {
+                                  productCubit.deleteProduct(
+                                      widget.users.id!, details);
+                                },
+                                backgroundColor: const Color(0xFFFE4A49),
+                                foregroundColor: Colors.white,
+                                icon: Icons.delete,
+                                label: AppStrings.remove,
                               ),
-                              child: Container(
-                                height: 145.h,
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 7),
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
+                              SlidableAction(
+                                onPressed: (context) {
+                                  GlobalMethods.navTo(
+                                      UpdateProduct(
+                                          idUser: widget.users.id,
+                                          details: details,
+                                          productCubit: productCubit),
+                                      context);
+                                },
+                                backgroundColor: AppColors.black,
+                                foregroundColor: Colors.white,
+                                icon: Icons.edit_outlined,
+                                label: AppStrings.edit,
+                              ),
+                            ],
+                          ),
+                          child: Container(
+                            height: 145.h,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 7),
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
+                                  BoxShadow(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.white,
-                                        blurRadius: 8,
-                                        blurStyle: BlurStyle.outer,
-                                        spreadRadius: 1,
-                                      ),
-                                    ]),
-                                child: Row(
-                                  children: [
-                                    CustmeImage(
-                                      image: details.image ??
-                                          'assets/img/white.jpg',
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CustomText(
-                                              text:
-                                                  "${ProductString.productName}${details.nameProduct}"),
-                                          CustomText(
-                                              text:
-                                                  "${AppStrings.price}${details.price}"),
-                                          CustomText(
-                                              text:
-                                                  "${AppStrings.totalprice}$totalPriceOfQuantityPurchased"),
-                                          CustomText(
-                                              text:
-                                                  "${AppStrings.amount}${details.quantity}"),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                    blurRadius: 8,
+                                    blurStyle: BlurStyle.outer,
+                                    spreadRadius: 1,
+                                  ),
+                                ]),
+                            child: Row(
+                              children: [
+                                CustmeImage(
+                                  image:
+                                      details.image ?? 'assets/img/white.jpg',
                                 ),
-                              ));
-                        }),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 10),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                          "${ProductString.productName}${details.nameProduct}"),
+                                      CustomText(
+                                          "${AppStrings.price}${details.price}"),
+                                      CustomText(
+                                          "${AppStrings.totalprice}$totalPriceOfQuantityPurchased"),
+                                      CustomText(
+                                          "${AppStrings.amount}${details.quantity}"),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),

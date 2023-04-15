@@ -23,12 +23,9 @@ class _FlourScreenState extends State<FlourScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var flourCubit = BlocProvider.of<FlourCubit>(context);
     return Scaffold(
       appBar: AppBar(),
-      body: BodyFlourScreen(
-        flourList: flourCubit.flourList,
-      ),
+      body: BodyFlourScreen(),
     );
   }
 }

@@ -5,9 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 
 class CustomText extends StatelessWidget {
-  const CustomText({
+  const CustomText(
+    this.text, {
     Key? key,
-    required this.text,
     this.color = AppColors.black,
     this.fontSize = 16,
     this.onTap,

@@ -34,10 +34,10 @@ class TotalCardsScreen extends StatelessWidget {
               color: AppColors.textColor,
               child: ListTile(
                 title: CustomText(
-                  text: AppStrings.totlePeople(cardItem.numberPerosn),
+                  AppStrings.totlePeople(cardItem.numberPerosn),
                 ),
                 trailing: CustomText(
-                  text: "${getTotalPerson(users, cardItem.numberPersonInList)}",
+                  "${getTotalPerson(users, cardItem.numberPersonInList)}",
                 ),
               ),
             ),

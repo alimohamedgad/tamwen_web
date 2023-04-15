@@ -34,72 +34,69 @@ class _UpdateFlourState extends State<UpdateFlour> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FlourCubit, FlourState>(
-      builder: (context, state) {
-        var cubit = FlourCubit.get(context);
-        return Scaffold(
-          appBar: AppBar(),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 100, 5, 0),
-              child: Column(
-                children: [
-                  CustomTextfield(
-                    keyBordTyp: TextInputType.emailAddress,
-                    hintText: 'ادخل اسم العميل',
-                    icon: Icons.person,
-                    initialValue: widget.flourModel?.nameClient,
-                  ),
-                  const SizedBox(height: 10),
-                  CustomDropDownField(
-                    hint: 'اختر كمية الدقيق',
-                    selectVaule: cubit.selcetedAmountFlour.toString(),
-                    items: cubit.amountFlourList
-                        .map((e) => DropdownMenuItem(
-                              value: "$e",
-                              child: Text("$e"),
-                            ))
-                        .toList(),
-                    onChange: (newVal) {
-                      cubit.selcetedAmountFlour = newVal.toString();
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  CustomDropDownField(
-                    hint: 'اختر الدور ',
-                    selectVaule: cubit.selectRound,
-                    items: cubit.roundList
-                        .map((e) => DropdownMenuItem(
-                              value: e.round,
-                              child: Text(e.round),
-                            ))
-                        .toList(),
-                    onChange: (newVal) {
-                      cubit.selectRound = newVal.toString();
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  CustomButton(
-                    onPressed: () {
-                      cubit.updateFlour(
-                        FlourModel(
-                          id: widget.flourModel?.id,
-                          nameClient: widget.flourModel!.nameClient,
-                          round: cubit.selectRound.toString(),
-                          amountFlour:
-                              int.parse(cubit.selcetedAmountFlour.toString()),
-                        ),
-                      );
-                      Navigator.pop(context);
-                    },
-                    text: 'تحديث  الدقيق',
-                  ),
-                ],
+    final cubit = FlourCubit.get(context);
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(5, 100, 5, 0),
+          child: Column(
+            children: [
+              CustomTextfield(
+                keyBordTyp: TextInputType.emailAddress,
+                hintText: 'ادخل اسم العميل',
+                icon: Icons.person,
+                initialValue: widget.flourModel?.nameClient,
               ),
-            ),
+              const SizedBox(height: 10),
+              CustomDropDownField(
+                hint: 'اختر كمية الدقيق',
+                selectVaule: cubit.selcetedAmountFlour.toString(),
+                items: cubit.amountFlourList
+                    .map((e) => DropdownMenuItem(
+                          value: "$e",
+                          child: Text("$e"),
+                        ))
+                    .toList(),
+                onChange: (newVal) {
+                  cubit.selcetedAmountFlour = newVal.toString();
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomDropDownField(
+                hint: 'اختر الدور ',
+                selectVaule: cubit.selectRound,
+                items: cubit.roundList
+                    .map((e) => DropdownMenuItem(
+                          value: e.round,
+                          child: Text(e.round),
+                        ))
+                    .toList(),
+                onChange: (newVal) {
+                  cubit.selectRound = newVal.toString();
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomButton(
+                onPressed: () {
+                  cubit.updateFlour(
+                    FlourModel(
+                      id: widget.flourModel?.id,
+                      nameClient: widget.flourModel!.nameClient,
+                      round: cubit.selectRound.toString(),
+                      amountFlour:
+                          int.parse(cubit.selcetedAmountFlour.toString()),
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
+                text: 'تحديث  الدقيق',
+              ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

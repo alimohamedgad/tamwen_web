@@ -7,7 +7,7 @@ import 'package:tamwen_web/Core/Services/global_method.dart';
 import 'package:tamwen_web/Featurs/View/Screens/auth/login_screen.dart';
 
 import '../../../Controller/Login_Cubit/login_cubit.dart';
-import '../../../Controller/People_Cubit/people_cubit.dart';
+import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/App_String/app_strings.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
@@ -20,17 +20,14 @@ import 'Product_Screen/products_screen.dart';
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({
     Key? key,
-    required this.peopleCubit,
   }) : super(key: key);
-
-  final PeopleCubit peopleCubit;
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return const Drawer(
       child: Material(
         color: AppColors.primaryColor4,
-        child: DrawerBody(peopleCubit: peopleCubit),
+        child: DrawerBody(),
       ),
     );
   }
@@ -39,27 +36,25 @@ class DrawerScreen extends StatelessWidget {
 class DrawerBody extends StatelessWidget {
   const DrawerBody({
     Key? key,
-    required this.peopleCubit,
   }) : super(key: key);
-
-  final PeopleCubit peopleCubit;
 
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
+    final clientCubit = ClientCubit.get(context);
 
     return SingleChildScrollView(
       child: Column(
         children: [
           UserAccountsDrawerHeader(
             accountName: const CustomText(
-              text: 'الحساب الخاص بك',
+              'الحساب الخاص بك',
             ),
             currentAccountPicture: const CircleAvatar(
               backgroundColor: Colors.white,
             ),
             accountEmail: CustomText(
-              text: user!.email!,
+              user!.email!,
             ),
             decoration: const BoxDecoration(
               color: AppColors.textColor,
@@ -85,7 +80,7 @@ class DrawerBody extends StatelessWidget {
             text: AppStrings.totalPerosns,
             onTap: () {
               GlobalMethods.navTo(
-                  TotalCardsScreen(users: peopleCubit.users), context);
+                  TotalCardsScreen(users: clientCubit.users), context);
             },
           ),
           const Divider(color: AppColors.white),
@@ -102,7 +97,7 @@ class DrawerBody extends StatelessWidget {
               text: ProductString.products,
               onTap: () {
                 GlobalMethods.navTo(
-                  ProductsScreen(userModel: peopleCubit.users[0]),
+                  ProductsScreen(userModel: clientCubit.users[0]),
                   context,
                 );
               }),

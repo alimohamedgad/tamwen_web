@@ -6,7 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:tamwen_web/Core/App_String/app_strings.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
-import 'package:tamwen_web/Featurs/Controller/People_Cubit/people_cubit.dart';
+import 'package:tamwen_web/Featurs/Controller/People_Cubit/client_cubit.dart';
 import 'package:tamwen_web/Featurs/View/Screens/Product/product_details.dart';
 import 'package:tamwen_web/Featurs/View/Widgets/Custom_Text/custom_text.dart';
 
@@ -30,7 +30,7 @@ class TotalPeopeEqualOne extends StatefulWidget {
 class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
   @override
   void initState() {
-    PeopleCubit.get(context).getDifferentUser(widget.isEqualTo);
+    ClientCubit.get(context).getDifferentUser(widget.isEqualTo);
     super.initState();
   }
 
@@ -39,24 +39,24 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
     return Scaffold(
       appBar: AppBar(),
       body: ConditionalBuilder(
-        condition: PeopleCubit.get(context).differentUser.isNotEmpty,
+        condition: ClientCubit.get(context).differentUser.isNotEmpty,
         fallback: (context) => const Center(
           child: CustomText(
-            text: AppStrings.thisListIsEmpty,
+            AppStrings.thisListIsEmpty,
             color: AppColors.white,
             fontSize: 25,
           ),
         ),
         builder: (BuildContext context) {
-          return BlocBuilder<PeopleCubit, PeopleState>(
+          return BlocBuilder<ClientCubit, ClientState>(
             builder: (context, state) {
-              var peopleCubit = PeopleCubit.get(context);
+              var clientCubit = ClientCubit.get(context);
 
               return AnimationLimiter(
                 child: ListView.builder(
-                  itemCount: peopleCubit.differentUser.length,
+                  itemCount: clientCubit.differentUser.length,
                   itemBuilder: (context, index) {
-                    final user = peopleCubit.differentUser[index];
+                    final user = clientCubit.differentUser[index];
                     var mainPrice = user.numberOfMainPeople;
                     var totlePrice = 0;
                     totlePrice =
@@ -75,7 +75,7 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
                               children: [
                                 SlidableAction(
                                   onPressed: (context) async {
-                                    await peopleCubit.deleteUser(user);
+                                    await clientCubit.deleteUser(user);
                                   },
                                   backgroundColor: const Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
@@ -99,7 +99,7 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
                               onTap: () {
                                 GlobalMethods.navTo(
                                   DetailsScreen(
-                                    users: peopleCubit.differentUser[index],
+                                    users: clientCubit.differentUser[index],
                                     totalPrice: totlePrice,
                                   ),
                                   context,
@@ -118,19 +118,17 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
                                 ),
                                 child: ListTile(
                                   title: CustomText(
-                                    text: "${AppStrings.name}${user.name}",
+                                    "${AppStrings.name}${user.name}",
                                   ),
                                   subtitle: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       CustomText(
-                                        text:
-                                            "${AppStrings.numberOfIndividuals}${user.numberOfMainPeople}  /  ${user.numberOfExtraPeople}",
+                                        "${AppStrings.numberOfIndividuals}${user.numberOfMainPeople}  /  ${user.numberOfExtraPeople}",
                                       ),
                                       CustomText(
-                                        text:
-                                            "${AppStrings.password} ${user.password}",
+                                        "${AppStrings.password} ${user.password}",
                                       ),
                                     ],
                                   ),
@@ -138,11 +136,10 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      CustomText(text: totlePrice.toString()),
+                                      CustomText(totlePrice.toString()),
                                       const Spacer(),
                                       CustomText(
-                                        text:
-                                            "${user.priceOfExtraPerople * user.numberOfExtraPeople}",
+                                        "${user.priceOfExtraPerople * user.numberOfExtraPeople}",
                                       ),
                                     ],
                                   ),

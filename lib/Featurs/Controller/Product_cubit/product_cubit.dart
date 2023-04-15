@@ -16,7 +16,17 @@ class ProductCubit extends Cubit<ProductState> {
 
   final _db = FirebaseFirestore.instance.collection('users');
   List<ProductModel> product = [];
-  List<ProductModel> productFilter = [];
+  static List<ProductModel> productFilter = [];
+
+  List<ProductModel> get filterProductName {
+    return productFilter
+        .fold<Map<String, ProductModel>>({}, (map, product) {
+          map.putIfAbsent(product.nameProduct!, () => product);
+          return map;
+        })
+        .values
+        .toList();
+  }
 
   getProduct(UserModel userModel) {
     emit(GetProductsLoading());

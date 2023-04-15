@@ -33,28 +33,20 @@ class _ProductsScreenState extends State<ProductsScreen> {
       body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {
           var productCubit = BlocProvider.of<ProductCubit>(context);
-          final filterNameProduct = productCubit.productFilter
-              .fold<Map<String, ProductModel>>({}, (map, product) {
-                map.putIfAbsent(product.nameProduct!, () => product);
-                return map;
-              })
-              .values
-              .toList();
 
           return ListView.builder(
-            itemCount: filterNameProduct.length,
+            itemCount: productCubit.filterProductName.length,
             itemBuilder: (context, index) {
-              var product = filterNameProduct[index];
+              var product = productCubit.filterProductName[index];
               return Card(
                 child: ListTile(
-                  title: CustomText(text: '${product.nameProduct}'),
+                  title: CustomText('${product.nameProduct}'),
                   leading: Image.asset(
                     '${product.image}',
                     height: 40.h,
                   ),
                   trailing: CustomText(
-                    text:
-                        '${getTotlaProducts(productCubit.productFilter, product.nameProduct!)}',
+                    '${getTotlaProducts(ProductCubit.productFilter, product.nameProduct!)}',
                   ),
                   // trailing: CustomText(
                   //   text: '2500000000000',

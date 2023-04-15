@@ -8,11 +8,10 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:tamwen_web/Core/AppColors/app_colors.dart';
 import 'package:tamwen_web/Core/App_String/app_strings.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
-import 'package:tamwen_web/Featurs/View/Screens/Admin/home_admin.dart';
 import 'package:tamwen_web/Featurs/View/Screens/Home/update_client.dart';
 import 'package:tamwen_web/Featurs/View/Screens/Product/product_details.dart';
 import 'package:tamwen_web/Featurs/View/Widgets/Custom_Text/custom_text.dart';
-import '../../../Controller/People_Cubit/people_cubit.dart';
+import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../Controller/People_Cubit/people_state.dart';
 import '../../Widgets/Simmer_Loading/shimmer.dart';
 import '../../Widgets/total_price_for_persons.dart';
@@ -30,40 +29,37 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    PeopleCubit.get(context).getUser();
+    BlocProvider.of<ClientCubit>(context).getUser();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final user = ;
-
-    return BlocBuilder<PeopleCubit, PeopleState>(
-      builder: (context, state) {
-        var peopleCubit = PeopleCubit.get(context);
-
-        return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            elevation: 0.0,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  showSearch(
-                    context: context,
-                    delegate: CustomSearch(
-                        users: peopleCubit.users, cubit: peopleCubit),
-                  );
-                },
-                icon: const Icon(
-                  Icons.search,
-                ),
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0.0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: CustomSearch(),
+              );
+            },
+            icon: const Icon(
+              Icons.search,
+            ),
           ),
-          drawer: DrawerScreen(peopleCubit: peopleCubit),
-          body: ConditionalBuilder(
-            condition: peopleCubit.users.isNotEmpty,
+        ],
+      ),
+      drawer: const DrawerScreen(),
+      body: BlocBuilder<ClientCubit, ClientState>(
+        builder: (context, state) {
+          final clientCubit = ClientCubit.get(context);
+
+          return ConditionalBuilder(
+            condition: clientCubit.users.isNotEmpty,
             fallback: (context) => const ShimmerLoading(),
             builder: (BuildContext context) {
               return Column(
@@ -71,9 +67,9 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: AnimationLimiter(
                       child: ListView.builder(
-                        itemCount: peopleCubit.users.length,
+                        itemCount: clientCubit.users.length,
                         itemBuilder: (context, index) {
-                          final user = peopleCubit.users[index];
+                          final user = clientCubit.users[index];
                           var mainPrice = user.numberOfMainPeople;
                           var totlePrice = 0;
                           totlePrice =
@@ -92,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       SlidableAction(
                                         onPressed: (context) async {
-                                          await peopleCubit.deleteUser(user);
+                                          await clientCubit.deleteUser(user);
                                         },
                                         backgroundColor:
                                             const Color(0xFFFE4A49),
@@ -129,26 +125,24 @@ class _HomePageState extends State<HomePage> {
                                       onTap: () {
                                         GlobalMethods.navTo(
                                           DetailsScreen(
-                                            users: peopleCubit.users[index],
+                                            users: clientCubit.users[index],
                                             totalPrice: totlePrice,
                                           ),
                                           context,
                                         );
                                       },
                                       title: CustomText(
-                                        text: "${AppStrings.name}${user.name}",
+                                        AppStrings.name + user.name,
                                       ),
                                       subtitle: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           CustomText(
-                                            text:
-                                                "${AppStrings.numberOfIndividuals}${user.numberOfMainPeople}  /  ${user.numberOfExtraPeople}",
+                                            "${AppStrings.numberOfIndividuals}${user.numberOfMainPeople}  /  ${user.numberOfExtraPeople}",
                                           ),
                                           CustomText(
-                                            text:
-                                                "${AppStrings.password} ${user.password}",
+                                            "${AppStrings.password} ${user.password}",
                                           ),
                                         ],
                                       ),
@@ -156,12 +150,10 @@ class _HomePageState extends State<HomePage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          CustomText(
-                                              text: totlePrice.toString()),
+                                          CustomText(totlePrice.toString()),
                                           const Spacer(),
                                           CustomText(
-                                            text:
-                                                "${user.priceOfExtraPerople * user.numberOfExtraPeople}",
+                                            "${user.priceOfExtraPerople * user.numberOfExtraPeople}",
                                           ),
                                         ],
                                       ),
@@ -175,15 +167,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                  if (state is UsersLoading) CircularProgressIndicator()
                 ],
               );
-              // } else {
-              //   return ShimmerLoading();
-              // }
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

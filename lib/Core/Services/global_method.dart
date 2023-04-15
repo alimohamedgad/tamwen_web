@@ -45,10 +45,10 @@ class GlobalMethods {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomText(text: title),
+              CustomText(title),
             ],
           ),
-          content: CustomText(text: content),
+          content: CustomText(content),
           actions: [
             CusomtTextButton(
               text: 'لا',

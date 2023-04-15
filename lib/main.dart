@@ -3,9 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tamwen_web/Core/firebase_const.dart';
 import 'package:tamwen_web/Featurs/Controller/Login_Cubit/login_cubit.dart';
-import 'package:tamwen_web/Featurs/Controller/People_Cubit/people_cubit.dart';
+import 'package:tamwen_web/Featurs/Controller/People_Cubit/client_cubit.dart';
 import 'package:tamwen_web/Core/Services/utils.dart';
 import 'package:tamwen_web/Featurs/View/Screens/Home/home_page.dart';
 import 'Featurs/Controller/Flour_Cubit/flour_cubit.dart';
@@ -14,6 +13,7 @@ import 'Core/Responsive/Device/info_widget.dart';
 import 'Core/Get_it/get_it.dart';
 import 'Core/Responsive/Device/device_model.dart';
 import 'Core/Theme/theme_light.dart';
+import 'Featurs/Data/Web_Services/Remote_Data_Source/auth_services.dart';
 import 'Featurs/View/Screens/auth/login_screen.dart';
 import 'firebase_options.dart';
 
@@ -44,7 +44,7 @@ class TamwenApp extends StatelessWidget {
       builder: (context, child) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (BuildContext context) => getIt<PeopleCubit>(),
+            create: (BuildContext context) => getIt<ClientCubit>(),
           ),
           BlocProvider(
             create: (BuildContext context) => getIt<LoginCubit>(),
@@ -65,7 +65,7 @@ class TamwenApp extends StatelessWidget {
           theme: themeDataLight(),
           home: InfoWidget(
             widgetInfo: (BuildContext context, DeviceInfoModel deviceInfo) {
-              return user == null ? const LoginScreen() : HomePage();
+              return user == null ? const LoginScreen() : const HomePage();
             },
           ),
         ),

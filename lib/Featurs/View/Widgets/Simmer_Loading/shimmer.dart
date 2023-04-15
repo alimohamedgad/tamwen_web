@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 
@@ -8,15 +9,18 @@ class ShimmerLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: AppColors.textColor,
+      baseColor: AppColors.grey,
       highlightColor: AppColors.primaryColor,
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: 8,
         itemBuilder: (context, index) => Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           width: double.infinity,
-          color: AppColors.white,
-          height: 80,
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          height: 80.h,
         ),
       ),
     );

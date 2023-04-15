@@ -1,39 +1,35 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:tamwen_web/Featurs/Model/user.dart';
 
-abstract class PeopleState {}
+abstract class ClientState {}
 
-class PeopleInitial extends PeopleState {}
+class PeopleInitial extends ClientState {}
 
-class InsertState extends PeopleState {}
+class InsertState extends ClientState {}
 
-class UsersLoading extends PeopleState {}
+class UsersLoading extends ClientState {}
 
-class UsersFaliure extends PeopleState {}
+class UsersFaliure extends ClientState {}
 
-class UsersSuccess extends PeopleState {
-  List<UserModel> users;
-  UsersSuccess({
-    required this.users,
-  });
-}
+class UsersSuccess extends ClientState {}
 
-class AddUserSuccess extends PeopleState {}
+class AddUserSuccess extends ClientState {}
 
-class AddUserLoading extends PeopleState {}
+class AddUserLoading extends ClientState {}
 
-class AddUserFailure extends PeopleState {}
+class AddUserFailure extends ClientState {}
 
-class UpdateUserSuccess extends PeopleState {}
+class UpdateUserSuccess extends ClientState {}
 
-class UpdateUserFailure extends PeopleState {}
+class UpdateUserFailure extends ClientState {}
 
-class DeleteUserSuccess extends PeopleState {}
+class UpdateUserLoading extends ClientState {}
 
-class DeleteUserFailure extends PeopleState {}
+class DeleteUserSuccess extends ClientState {}
 
-class GetDefrenetUserSuccess extends PeopleState {}
+class DeleteUserFailure extends ClientState {}
 
-class GetDefrenetUserLoading extends PeopleState {}
+class GetDefrenetUserSuccess extends ClientState {}
 
-class GetDefrenetUserFailure extends PeopleState {}
+class GetDefrenetUserLoading extends ClientState {}
+
+class GetDefrenetUserFailure extends ClientState {}

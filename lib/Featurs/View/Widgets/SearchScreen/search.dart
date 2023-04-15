@@ -1,21 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Featurs/Model/user.dart';
 import 'package:tamwen_web/Featurs/View/Widgets/Custom_Text/custom_text.dart';
-import '../../../Controller/People_Cubit/people_cubit.dart';
+import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/App_String/app_strings.dart';
+import '../../../Controller/People_Cubit/people_state.dart';
 import 'search_widget.dart';
 
 class CustomSearch extends SearchDelegate {
-  final List<UserModel> users;
-  final PeopleCubit cubit;
-  CustomSearch({
-    required this.users,
-    required this.cubit,
-  });
-
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -69,51 +64,61 @@ class CustomSearch extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     List<UserModel> searchForList = [];
 
-    for (var item in users) {
+    for (var item in ClientCubit.get(context).users) {
       if (item.name.toLowerCase().startsWith(item.name.toLowerCase())) {
         searchForList.add(item);
       }
     }
 
-    return ConditionalBuilder(
-      condition: searchForList.isNotEmpty,
-      fallback: (context) => const Center(
-        child: CustomText(
-          text: AppStrings.wrongName,
-        ),
-      ),
-      builder: (context) => Scaffold(
-        body: SearchWidget(
-          users: searchForList,
-          peopleCubit: cubit,
-        ),
-      ),
+    return BlocBuilder<ClientCubit, ClientState>(
+      builder: (context, state) {
+        final clientCubit = ClientCubit.get(context);
+
+        return ConditionalBuilder(
+          condition: searchForList.isNotEmpty,
+          fallback: (context) => const Center(
+            child: CustomText(
+              AppStrings.wrongName,
+            ),
+          ),
+          builder: (context) => Scaffold(
+            body: SearchWidget(
+              users: searchForList,
+              clientCubit: clientCubit,
+            ),
+          ),
+        );
+      },
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     List<UserModel> searchForList = [];
-    for (var item in users) {
+    for (var item in ClientCubit.get(context).users) {
       if (item.name.toLowerCase().contains(query.toLowerCase())) {
         searchForList.add(item);
       }
     }
-    return ConditionalBuilder(
-      condition: searchForList.isNotEmpty,
-      fallback: (context) => const Center(
-        child: Text(
-          AppStrings.wrongName,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18, color: AppColors.white),
-        ),
-      ),
-      builder: (context) {
-        return Scaffold(
-          body: SearchWidget(
-            users: searchForList,
-            peopleCubit: cubit,
+    return BlocBuilder<ClientCubit, ClientState>(
+      builder: (context, state) {
+        final clientCubit = ClientCubit.get(context);
+
+        return ConditionalBuilder(
+          condition: searchForList.isNotEmpty,
+          fallback: (context) => const Center(
+            child: Text(
+              AppStrings.wrongName,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18, color: AppColors.white),
+            ),
           ),
+          builder: (context) {
+            return Scaffold(
+              body:
+                  SearchWidget(users: searchForList, clientCubit: clientCubit),
+            );
+          },
         );
       },
     );

@@ -15,31 +15,28 @@ import '../../../Widgets/Custom_Text/custom_text.dart';
 class BodyFlourScreen extends StatelessWidget {
   const BodyFlourScreen({
     Key? key,
-    required this.flourList,
   }) : super(key: key);
-
-  final List<FlourModel> flourList;
 
   @override
   Widget build(BuildContext context) {
-    return ConditionalBuilder(
-      condition: flourList.isNotEmpty,
-      fallback: (context) => const Center(
-        child: CustomText(
-          text: AppStrings.thisListIsEmpty,
-          color: AppColors.white,
-          fontSize: 25,
-        ),
-      ),
-      builder: (BuildContext context) => BlocBuilder<FlourCubit, FlourState>(
-        builder: (context, state) {
-          var flourCubit = BlocProvider.of<FlourCubit>(context);
+    return BlocBuilder<FlourCubit, FlourState>(
+      builder: (context, state) {
+        var flourCubit = BlocProvider.of<FlourCubit>(context);
 
-          return AnimationLimiter(
+        return ConditionalBuilder(
+          condition: flourCubit.flourList.isNotEmpty,
+          fallback: (context) => const Center(
+            child: CustomText(
+              AppStrings.thisListIsEmpty,
+              color: AppColors.white,
+              fontSize: 25,
+            ),
+          ),
+          builder: (BuildContext context) => AnimationLimiter(
             child: ListView.builder(
-              itemCount: flourList.length,
+              itemCount: flourCubit.flourList.length,
               itemBuilder: (context, index) {
-                final flourItem = flourList[index];
+                final flourItem = flourCubit.flourList[index];
                 return AnimationConfiguration.staggeredList(
                   position: index,
                   duration: const Duration(milliseconds: 600),
@@ -98,14 +95,12 @@ class BodyFlourScreen extends StatelessWidget {
                             ),
                             child: ListTile(
                               title: CustomText(
-                                text:
-                                    "${AppStrings.name}${flourItem.nameClient}",
+                                "${AppStrings.name}${flourItem.nameClient}",
                               ),
                               subtitle: CustomText(
-                                text:
-                                    "${ProductString.amountFloat}${flourItem.amountFlour} ك ",
+                                "${ProductString.amountFloat}${flourItem.amountFlour} ك ",
                               ),
-                              trailing: CustomText(text: flourItem.round),
+                              trailing: CustomText(flourItem.round),
                             ),
                           ),
                         ),
@@ -115,9 +110,9 @@ class BodyFlourScreen extends StatelessWidget {
                 );
               },
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

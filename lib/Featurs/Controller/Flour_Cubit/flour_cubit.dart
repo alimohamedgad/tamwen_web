@@ -24,8 +24,8 @@ class FlourCubit extends Cubit<FlourState> {
         flourList.clear();
         for (var flour in event.docs) {
           flourList.add(FlourModel.fromJson(flour));
-          emit(GetFlourSuccess());
         }
+        emit(GetFlourSuccess());
       });
     } on Exception catch (e) {
       emit(GetFlourFailure());
