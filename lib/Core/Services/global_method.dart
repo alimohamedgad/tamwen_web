@@ -2,8 +2,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../Featurs/View/Widgets/CustomButton/text_button.dart';
-import '../../Featurs/View/Widgets/Custom_Text/custom_text.dart';
+import '../../features/View/Widgets/CustomButton/text_button.dart';
+import '../../features/View/Widgets/Custom_Text/custom_text.dart';
 
 class GlobalMethods {
   static navTo(Widget newRoute, BuildContext context) {

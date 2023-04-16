@@ -31,7 +31,3 @@ class AppStrings {
   static String totlePeople(int number) => 'العدد الكلى ل $number افراد ';
   static String productMonth(int number) => 'منتجات شهر  $number  ';
 }
-
-class AppStringLogin {
-  static const String signOut = 'تسجيل الخروج';
-}

@@ -3,18 +3,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tamwen_web/Featurs/Controller/Login_Cubit/login_cubit.dart';
-import 'package:tamwen_web/Featurs/Controller/People_Cubit/client_cubit.dart';
 import 'package:tamwen_web/Core/Services/utils.dart';
-import 'package:tamwen_web/Featurs/View/Screens/Home/home_page.dart';
-import 'Featurs/Controller/Flour_Cubit/flour_cubit.dart';
-import 'Featurs/Controller/Product_cubit/product_cubit.dart';
-import 'Core/Responsive/Device/info_widget.dart';
+import 'package:tamwen_web/features/Controller/Login_Cubit/login_cubit.dart';
 import 'Core/Get_it/get_it.dart';
-import 'Core/Responsive/Device/device_model.dart';
 import 'Core/Theme/theme_light.dart';
-import 'Featurs/Data/Web_Services/Remote_Data_Source/auth_services.dart';
-import 'Featurs/View/Screens/auth/login_screen.dart';
+import 'Core/firebase_const.dart';
+import 'features/Controller/Flour_Cubit/flour_cubit.dart';
+import 'features/Controller/People_Cubit/client_cubit.dart';
+import 'features/Controller/Product_cubit/product_cubit.dart';
+import 'features/View/Screens/Home/home_page.dart';
+import 'features/View/Screens/auth/login_screen.dart';
+import 'features/data/Web_Services/Remote_Data_Source/auth_services.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -47,28 +46,17 @@ class TamwenApp extends StatelessWidget {
             create: (BuildContext context) => getIt<ClientCubit>(),
           ),
           BlocProvider(
-            create: (BuildContext context) => getIt<LoginCubit>(),
-          ),
-          BlocProvider(
             create: (BuildContext context) => getIt<ProductCubit>(),
-          ),
-          BlocProvider(
-            create: (BuildContext context) => getIt<FlourCubit>(),
           ),
         ],
         child: MaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          scaffoldMessengerKey: Utils.messengerKey,
-          debugShowCheckedModeBanner: false,
-          theme: themeDataLight(),
-          home: InfoWidget(
-            widgetInfo: (BuildContext context, DeviceInfoModel deviceInfo) {
-              return user == null ? const LoginScreen() : const HomePage();
-            },
-          ),
-        ),
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            scaffoldMessengerKey: Utils.messengerKey,
+            debugShowCheckedModeBanner: false,
+            theme: themeDataLight(),
+            home: user == null ? const LoginScreen() : const HomePage()),
       ),
     );
   }
