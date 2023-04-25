@@ -7,7 +7,6 @@ import 'package:tamwen_web/Core/Services/utils.dart';
 import '../../../Core/AppColors/app_colors.dart';
 import '../../../Core/App_String/login_string.dart';
 import '../../../Core/firebase_const.dart';
-import '../../data/Web_Services/Remote_Data_Source/auth_services.dart';
 
 part 'login_state.dart';
 
@@ -34,14 +33,13 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  Future signOut(context) async {
-    emit(SignOutLoading());
+  Future signOut() async {
     try {
       await auth.signOut();
       Utils.snackBar(AuthString.signOut, AppColors.green);
       emit(SignOutSuccess());
     } catch (e) {
-      emit(const SignOutFailure(erorrMessage: 'المدخلات غير صحيحه'));
+      emit(const SignOutFailure(errorMessage: 'المدخلات غير صحيحه'));
     }
   }
 }

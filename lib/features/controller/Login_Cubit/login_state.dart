@@ -26,8 +26,8 @@ class SignOutSuccess extends LoginState {}
 class SignOutLoading extends LoginState {}
 
 class SignOutFailure extends LoginState {
-  final String erorrMessage;
+  final String errorMessage;
   const SignOutFailure({
-    required this.erorrMessage,
+    required this.errorMessage,
   });
 }

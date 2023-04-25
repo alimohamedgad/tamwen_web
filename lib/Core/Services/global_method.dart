@@ -31,6 +31,24 @@ class GlobalMethods {
     );
   }
 
+  static showProgressIndicator(BuildContext context) async {
+    AlertDialog alertDialog = const AlertDialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      content: Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(Colors.black),
+        ),
+      ),
+    );
+    await showDialog(
+      barrierColor: Colors.white.withOpacity(0),
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => alertDialog,
+    );
+  }
+
   static Future<void> warningDialog(
     BuildContext context, {
     required String content,

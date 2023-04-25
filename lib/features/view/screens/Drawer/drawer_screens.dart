@@ -113,8 +113,9 @@ class DrawerBody extends StatelessWidget {
                 content: 'هل تريد تسجيل الخروج ؟',
                 title: '',
                 onTap: () async {
-                  GlobalMethods.navRemoveUntil(const LoginScreen(), context);
-                  await loginCubit.signOut(context);
+                  loginCubit.signOut().then((value) {
+                    GlobalMethods.navRemoveUntil(const LoginScreen(), context);
+                  });
                 },
               );
             },
