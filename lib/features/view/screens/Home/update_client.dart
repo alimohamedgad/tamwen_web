@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tamwen_web/Core/Services/global_method.dart';
+import 'package:tamwen_web/features/view/screens/Home/home_page.dart';
 
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/dumy_data.dart';
@@ -10,7 +12,7 @@ import '../../../../Core/App_String/app_strings.dart';
 import '../../../../Core/App_String/product_string.dart';
 import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../Controller/People_Cubit/people_state.dart';
-import '../../../Model/user.dart';
+import '../../../model/user.dart';
 import '../../Widgets/CustomButton/custom_button.dart';
 import '../../Widgets/CustomDropDown/custom_drop_button.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
@@ -33,7 +35,7 @@ class _UpdateUserState extends State<UpdateUser> {
   TextEditingController? _nameController;
   TextEditingController? passwordController;
 
-  GlobalKey<FormState> key = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
     final cubit = ClientCubit.get(context);
@@ -42,8 +44,7 @@ class _UpdateUserState extends State<UpdateUser> {
         TextEditingController(text: "${widget.users.password}");
     cubit.numMainPeopleSelected = widget.users.numberOfMainPeople.toString();
     cubit.numExtraPeopleSelected = widget.users.numberOfExtraPeople.toString();
-    cubit.priceOfExtraPeopleSelected =
-        widget.users.priceOfExtraPerople.toString();
+    cubit.priceOfExtraPeopleSelected = widget.users.price.toString();
     super.initState();
   }
 
@@ -60,8 +61,10 @@ class _UpdateUserState extends State<UpdateUser> {
     return BlocListener<ClientCubit, ClientState>(
       listener: (context, state) {
         if (state is UpdateUserLoading) {
-          Utils.snackBar('يرجي الانتظار', AppColors.green);
+          GlobalMethods.showProgressIndicator(context);
         } else if (state is UpdateUserSuccess) {
+          Navigator.pop(context);
+          GlobalMethods.navTo(const HomePage(), context);
           Utils.snackBar('تم تحديث البطاقة بنجاح ', AppColors.green);
         }
       },
@@ -74,7 +77,7 @@ class _UpdateUserState extends State<UpdateUser> {
           child: Padding(
             padding: const EdgeInsets.only(top: 100),
             child: Form(
-              key: key,
+              key: formKey,
               child: Column(
                 children: [
                   CustomTextfield(
@@ -150,23 +153,9 @@ class _UpdateUserState extends State<UpdateUser> {
                   SizedBox(height: 10.h),
                   CustomButton(
                     onPressed: () async {
-                      await cubit
-                          .updateUser(
-                        UserModel(
-                          id: widget.users.id,
-                          name: _nameController!.text,
-                          password: int.parse(passwordController!.text),
-                          numberOfMainPeople:
-                              int.parse(cubit.numMainPeopleSelected.toString()),
-                          numberOfExtraPeople: int.parse(
-                              cubit.numExtraPeopleSelected.toString()),
-                          priceOfExtraPerople: int.parse(
-                              cubit.priceOfExtraPeopleSelected.toString()),
-                        ),
-                      )
-                          .then((value) {
-                        Navigator.pop(context);
-                      });
+                      GlobalMethods.showProgressIndicator(context);
+                      updateClient(cubit);
+                      Navigator.pop(context);
                     },
                     text: AppStrings.editUser,
                   )
@@ -175,6 +164,19 @@ class _UpdateUserState extends State<UpdateUser> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> updateClient(ClientCubit cubit) async {
+    await cubit.updateUser(
+      UserModel(
+        id: widget.users.id,
+        name: _nameController!.text,
+        password: int.parse(passwordController!.text),
+        numberOfMainPeople: int.parse(cubit.numMainPeopleSelected.toString()),
+        numberOfExtraPeople: int.parse(cubit.numExtraPeopleSelected.toString()),
+        price: int.parse(cubit.priceOfExtraPeopleSelected.toString()),
       ),
     );
   }

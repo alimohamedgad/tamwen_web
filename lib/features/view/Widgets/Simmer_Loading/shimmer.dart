@@ -8,19 +8,21 @@ class ShimmerLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: AppColors.grey,
-      highlightColor: AppColors.primaryColor,
-      child: ListView.builder(
-        itemCount: 8,
-        itemBuilder: (context, index) => Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(12),
+    return Expanded(
+      child: Shimmer.fromColors(
+        baseColor: AppColors.grey,
+        highlightColor: AppColors.primaryColor,
+        child: ListView.builder(
+          itemCount: 8,
+          itemBuilder: (context, index) => Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            height: 80.h,
           ),
-          height: 80.h,
         ),
       ),
     );

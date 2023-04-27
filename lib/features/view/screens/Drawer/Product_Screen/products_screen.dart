@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../Controller/Product_cubit/product_cubit.dart';
 import '../../../../Model/product.dart';
-import '../../../../Model/user.dart';
+import '../../../../model/user.dart';
 import '../../../Widgets/Custom_Text/custom_text.dart';
 
 class ProductsScreen extends StatefulWidget {

@@ -6,16 +6,15 @@ class UserModel extends Equatable {
   final String name;
   final int numberOfMainPeople;
   final int numberOfExtraPeople;
-  final int priceOfExtraPerople;
+  final int price;
   final int password;
-
   UserModel({
     this.id,
-    this.name = '',
-    this.numberOfMainPeople = 0,
-    this.numberOfExtraPeople = 0,
-    this.priceOfExtraPerople = 0,
-    this.password = 0,
+    required this.name,
+    required this.numberOfMainPeople,
+    required this.numberOfExtraPeople,
+    required this.price,
+    required this.password,
   });
 
   toJson() {
@@ -24,7 +23,7 @@ class UserModel extends Equatable {
       'name': name,
       'numberOfMainPeople': numberOfMainPeople,
       'numberOfExtraPeople': numberOfExtraPeople,
-      'priceOfExtraPerople': priceOfExtraPerople,
+      'price': price,
       'password': password,
     };
   }
@@ -35,7 +34,7 @@ class UserModel extends Equatable {
       name: json['name'],
       numberOfExtraPeople: json['numberOfExtraPeople'],
       numberOfMainPeople: json['numberOfMainPeople'],
-      priceOfExtraPerople: json['priceOfExtraPerople'],
+      price: json['price'],
       password: json['password'],
     );
   }
@@ -45,7 +44,7 @@ class UserModel extends Equatable {
     String? name,
     int? numberOfMainPeople,
     int? numberOfExtraPeople,
-    int? priceOfExtraPerople,
+    int? price,
     int? password,
   }) {
     return UserModel(
@@ -53,7 +52,7 @@ class UserModel extends Equatable {
       name: name ?? this.name,
       numberOfMainPeople: numberOfMainPeople ?? this.numberOfMainPeople,
       numberOfExtraPeople: numberOfExtraPeople ?? this.numberOfExtraPeople,
-      priceOfExtraPerople: priceOfExtraPerople ?? this.priceOfExtraPerople,
+      price: price ?? this.price,
       password: password ?? this.password,
     );
   }
@@ -65,8 +64,8 @@ class UserModel extends Equatable {
       name,
       numberOfMainPeople,
       numberOfExtraPeople,
-      priceOfExtraPerople,
-      password,
+      price,
+      password
     ];
   }
 }

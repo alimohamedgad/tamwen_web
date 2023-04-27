@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import '../../../../Controller/Flour_Cubit/flour_cubit.dart';
-import '../../../../../Core/Services/global_method.dart';
-import '../../../../../Core/App_String/product_string.dart';
-import '../../../../model/flour.dart';
-import 'update_flour.dart';
+
 import '../../../../../Core/AppColors/app_colors.dart';
 import '../../../../../Core/App_String/app_strings.dart';
+import '../../../../../Core/App_String/product_string.dart';
+import '../../../../../Core/Services/global_method.dart';
+import '../../../../Controller/Flour_Cubit/flour_cubit.dart';
 import '../../../Widgets/Custom_Text/custom_text.dart';
+import 'update_flour.dart';
 
 class BodyFlourScreen extends StatelessWidget {
   const BodyFlourScreen({

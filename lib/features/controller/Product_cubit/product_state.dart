@@ -38,7 +38,7 @@ class FilterProductLoading extends ProductState {}
 
 class FilterProductSuccess extends ProductState {}
 
-class FilterProductErorr extends ProductState {}
+class FilterProductError extends ProductState {}
 
 class GetDataByMonth extends ProductState {}
 

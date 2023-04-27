@@ -16,7 +16,7 @@ class FlourScreen extends StatelessWidget {
       create: (context) => FlourCubit()..getFlours(),
       child: Scaffold(
         appBar: AppBar(),
-        body: BodyFlourScreen(),
+        body: const BodyFlourScreen(),
       ),
     );
   }

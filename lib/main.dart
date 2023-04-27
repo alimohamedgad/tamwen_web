@@ -3,9 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tamwen_web/Core/Services/utils.dart';
-import 'package:tamwen_web/features/Controller/Login_Cubit/login_cubit.dart';
-import 'Core/Get_it/get_it.dart';
+import 'Core/Services/utils.dart';
+import 'features/Controller/Login_Cubit/login_cubit.dart';
 import 'Core/Theme/theme_light.dart';
 import 'Core/firebase_const.dart';
 import 'features/Controller/Flour_Cubit/flour_cubit.dart';
@@ -13,14 +12,12 @@ import 'features/Controller/People_Cubit/client_cubit.dart';
 import 'features/Controller/Product_cubit/product_cubit.dart';
 import 'features/View/Screens/Home/home_page.dart';
 import 'features/View/Screens/auth/login_screen.dart';
-import 'features/data/Web_Services/Remote_Data_Source/auth_services.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
-  ServiceLocator().init();
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('ar')],
@@ -43,20 +40,28 @@ class TamwenApp extends StatelessWidget {
       builder: (context, child) => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (BuildContext context) => getIt<ClientCubit>(),
+            create: (BuildContext context) => ClientCubit(),
           ),
           BlocProvider(
-            create: (BuildContext context) => getIt<ProductCubit>(),
+            create: (BuildContext context) => ProductCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => LoginCubit(),
+          ),
+          BlocProvider(
+            create: (BuildContext context) => FlourCubit(),
           ),
         ],
         child: MaterialApp(
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            scaffoldMessengerKey: Utils.messengerKey,
-            debugShowCheckedModeBanner: false,
-            theme: themeDataLight(),
-            home: user == null ? const LoginScreen() : const HomePage()),
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          scaffoldMessengerKey: Utils.messengerKey,
+          debugShowCheckedModeBanner: false,
+          theme: themeDataLight(),
+          // home: LoginScreen(),
+          home: user == null ? const LoginScreen() : const HomePage(),
+        ),
       ),
     );
   }

@@ -9,9 +9,9 @@ import 'package:tamwen_web/features/View/Screens/Product/update_product.dart';
 
 import '../../../../Core/App_String/product_string.dart';
 import '../../../../Core/Services/global_method.dart';
-import '../../../../features/Model/user.dart';
 import '../../../Controller/Product_cubit/product_cubit.dart';
 import '../../../../Core/App_String/app_strings.dart';
+import '../../../model/user.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
 import '../../Widgets/custom_image.dart';
 

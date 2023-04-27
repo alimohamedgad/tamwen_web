@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tamwen_web/Core/Services/utils.dart';
-import 'package:tamwen_web/features/Controller/People_Cubit/people_state.dart';
-import '../../Model/user.dart';
+import '../../../Core/Services/utils.dart';
+import '../../Controller/People_Cubit/people_state.dart';
 import '../../../Core/AppColors/app_colors.dart';
+import '../../model/user.dart';
 
 class ClientCubit extends Cubit<ClientState> {
   ClientCubit() : super(PeopleInitial());
@@ -15,8 +15,8 @@ class ClientCubit extends Cubit<ClientState> {
   List<UserModel> differentUser = [];
 
   void getUser() {
+    emit(UsersLoading());
     try {
-      emit(UsersLoading());
       _db.orderBy('numberOfMainPeople').snapshots().listen((event) {
         users.clear();
         for (var doc in event.docs) {
@@ -55,8 +55,8 @@ class ClientCubit extends Cubit<ClientState> {
   }
 
   Future<void> addUsers(UserModel model) async {
+    emit(AddUserLoading());
     try {
-      // emit(AddUserLoading());
       final docuser = _db.doc();
       model.id = docuser.id;
       await docuser.set(model.toJson());

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/App_String/app_strings.dart';
 import '../../../../Core/Services/global_method.dart';
-import '../../../Model/user.dart';
 import '../../../model/card.dart';
+import '../../../model/user.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
 import '../Drawer/Filter_user/total_user_filter.dart';
 

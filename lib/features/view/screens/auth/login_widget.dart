@@ -1,9 +1,7 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tamwen_web/Core/firebase_const.dart';
-import 'package:tamwen_web/features/Controller/Login_Cubit/login_cubit.dart';
+import '../../../Controller/Login_Cubit/login_cubit.dart';
 
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/App_String/login_string.dart';
@@ -37,15 +35,19 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final loginCubit = BlocProvider.of<LoginCubit>(context);
+    final logCubit = context.read<LoginCubit>();
 
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
+        if (state is LoginLoading) {
+          GlobalMethods.showProgressIndicator(context);
+        }
         if (state is LoginFailure) {
-          GlobalMethods.awesemDialog(context,
-              message: state.errorMessage, dialogType: DialogType.error);
-        } else if (state is LoginSuccess) {
-          Utils.snackBar(AuthString.login, AppColors.green.withOpacity(0.9));
+          Navigator.pop(context);
+          Utils.snackBar(state.errorMessage, AppColors.black);
+        }
+        if (state is LoginSuccess) {
+          Utils.snackBar(AuthString.login, AppColors.black);
           GlobalMethods.navTo(const HomePage(), context);
         }
       },
@@ -118,8 +120,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                         SizedBox(height: 10.h),
                         CustomButton(
                           onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              await loginCubit.signIn(
+                            if (!formKey.currentState!.validate()) {
+                              Navigator.pop(context);
+                              return;
+                            } else {
+                              formKey.currentState!.save();
+                              await logCubit.signIn(
                                 email: emailController.text.trim(),
                                 password: passwordController.text.trim(),
                                 context: context,

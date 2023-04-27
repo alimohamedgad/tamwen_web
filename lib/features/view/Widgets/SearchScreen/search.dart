@@ -6,7 +6,7 @@ import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/App_String/app_strings.dart';
 import '../../../Controller/People_Cubit/people_state.dart';
-import '../../../Model/user.dart';
+import '../../../model/user.dart';
 import '../Custom_Text/custom_text.dart';
 import 'search_widget.dart';
 

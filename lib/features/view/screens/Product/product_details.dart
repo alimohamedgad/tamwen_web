@@ -14,10 +14,8 @@ import '../../../Controller/Product_cubit/product_cubit.dart';
 import '../../../../Core/App_String/app_strings.dart';
 import '../../../../Core/App_String/product_string.dart';
 import '../../../../Core/Services/enums.dart';
-import '../../../Model/user.dart';
+import '../../../model/user.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
-import '../../Widgets/custom_image.dart';
-import '../../Widgets/custom_image.dart';
 import '../Drawer/FlourScreen/add_flour.dart';
 import 'add_product.dart';
 import 'filter_product.dart';
@@ -184,7 +182,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   int getTotalPrice() {
     final totalPriceForOnePerson = widget.totalPrice! +
-        widget.users!.priceOfExtraPerople * widget.users!.numberOfExtraPeople;
+        widget.users!.price * widget.users!.numberOfExtraPeople;
     return totalPriceForOnePerson;
   }
 
@@ -197,8 +195,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       leading: const BackButton(),
       elevation: 0.0,
       centerTitle: true,
-      title: Text(
-          "${totalPrice + item.priceOfExtraPerople * item.numberOfExtraPeople}"),
+      title: Text("${totalPrice + item.price * item.numberOfExtraPeople}"),
       actions: [
         PopupMenuButton<PopMenuValue>(
           itemBuilder: (context) => [

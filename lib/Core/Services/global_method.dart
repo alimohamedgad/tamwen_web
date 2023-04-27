@@ -37,7 +37,7 @@ class GlobalMethods {
       elevation: 0,
       content: Center(
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(Colors.black),
+          valueColor: AlwaysStoppedAnimation(Colors.deepOrange),
         ),
       ),
     );

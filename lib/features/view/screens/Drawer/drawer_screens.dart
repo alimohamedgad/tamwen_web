@@ -13,7 +13,6 @@ import '../../../../Core/App_String/app_strings.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
 import '../../Widgets/custom_list_tile.dart';
 import '../Home/add_client.dart';
-import '../Home/card_screen.dart';
 import '../auth/login_screen.dart';
 import 'FlourScreen/flour_screen.dart';
 import 'Product_Screen/products_screen.dart';

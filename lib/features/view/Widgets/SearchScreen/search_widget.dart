@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -9,8 +8,8 @@ import 'package:tamwen_web/Core/AppColors/app_colors.dart';
 import 'package:tamwen_web/Core/App_String/app_strings.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
 
-import '../../../../features/Model/user.dart';
 import '../../../Controller/People_Cubit/client_cubit.dart';
+import '../../../model/user.dart';
 import '../../Screens/Home/update_client.dart';
 import '../../screens/Product/product_details.dart';
 import '../Custom_Text/custom_text.dart';
@@ -115,7 +114,7 @@ class SearchWidget extends StatelessWidget {
                                 CustomText(totlePrice.toString()),
                                 const Spacer(),
                                 CustomText(
-                                  "${user.priceOfExtraPerople * user.numberOfExtraPeople}",
+                                  "${user.price * user.numberOfExtraPeople}",
                                 ),
                               ],
                             ),

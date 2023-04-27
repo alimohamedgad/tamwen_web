@@ -1,4 +1,4 @@
-import 'package:tamwen_web/features/Model/product.dart';
+import '../features/Model/product.dart';
 
 import '../features/Model/flour.dart';
 

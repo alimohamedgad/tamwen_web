@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:tamwen_web/Core/AppColors/app_colors.dart';
+import '../../../Core/AppColors/app_colors.dart';
 
 import 'Custom_Text/custom_text.dart';
 

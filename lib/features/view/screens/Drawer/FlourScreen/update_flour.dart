@@ -1,12 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../Core/dumy_data.dart';
-import '../../../../../Core/dumy_data.dart';
 import '../../../../Model/flour.dart';
-import '../../../../Model/user.dart';
 import '../../../../controller/Flour_Cubit/flour_cubit.dart';
+import '../../../../model/user.dart';
 import '../../../Widgets/CustomButton/custom_button.dart';
 import '../../../Widgets/CustomDropDown/custom_drop_button.dart';
 import '../../../Widgets/custom_text_field.dart';

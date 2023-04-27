@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tamwen_web/Core/AppColors/app_colors.dart';
-import 'package:tamwen_web/Core/Services/utils.dart';
+import '../../../Core/AppColors/app_colors.dart';
+import '../../../Core/Services/utils.dart';
 import '../../Model/product.dart';
-import '../../Model/user.dart';
+import '../../model/user.dart';
 
 part 'product_state.dart';
 
@@ -58,7 +58,7 @@ class ProductCubit extends Cubit<ProductState> {
         }
       });
     } on Exception catch (e) {
-      emit(FilterProductErorr());
+      emit(FilterProductError());
     }
   }
 

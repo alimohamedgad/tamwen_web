@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../Core/Get_it/get_it.dart';
 import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../Drawer/drawer_screens.dart';
 
@@ -13,12 +12,12 @@ class AdminPanel extends StatelessWidget {
     var clientCubit = ClientCubit.get(context);
 
     return BlocProvider(
-      create: (context) => getIt<ClientCubit>()..getUser(),
+      create: (context) => ClientCubit()..getUser(),
       child: Scaffold(
         // appBar: appBarHomePage(context, ClientCubit),
         appBar: AppBar(),
-        drawer: DrawerScreen(),
-        body: Center(
+        drawer: const DrawerScreen(),
+        body: const Center(
           child: Text('Admin'),
         ),
       ),

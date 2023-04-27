@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tamwen_web/Core/Services/utils.dart';
+import '../../../Core/Services/utils.dart';
 
 import '../../../Core/AppColors/app_colors.dart';
 import '../../../Core/App_String/login_string.dart';

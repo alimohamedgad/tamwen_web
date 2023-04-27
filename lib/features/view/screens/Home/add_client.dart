@@ -11,7 +11,7 @@ import '../../../../Core/App_String/product_string.dart';
 import '../../../../Core/App_String/app_strings.dart';
 import '../../../../Core/Services/global_method.dart';
 import '../../../Controller/People_Cubit/people_state.dart';
-import '../../../Model/user.dart';
+import '../../../model/user.dart';
 import '../../Widgets/CustomButton/custom_button.dart';
 import '../../Widgets/CustomDropDown/custom_drop_button.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
@@ -46,11 +46,17 @@ class _AddClientState extends State<AddClient> {
     final cubit = ClientCubit.get(context);
 
     return BlocListener<ClientCubit, ClientState>(
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
       listener: (context, state) {
-        // if (state is AddUserLoading) {
-        //   Utils.snackBar('يرجي الأنتظار', AppColors.green);
+        if (state is AddUserLoading) {
+          GlobalMethods.showProgressIndicator(context);
+        }
         if (state is AddUserSuccess) {
-          Utils.snackBar(' تمت اضافة بطاقة جديدة بنجاح ', AppColors.green);
+          Navigator.pop(context);
+          GlobalMethods.navTo(const HomePage(), context);
+          Utils.snackBar(' تمت اضافة بطاقة جديدة بنجاح ', AppColors.black);
         }
       },
       child: Scaffold(
@@ -146,6 +152,7 @@ class _AddClientState extends State<AddClient> {
                   SizedBox(height: 10.h),
                   CustomButton(
                     onPressed: () {
+                      GlobalMethods.showProgressIndicator(context);
                       _addClient(formKey, cubit, nameController,
                           passwordController, context);
                     },
@@ -161,63 +168,26 @@ class _AddClientState extends State<AddClient> {
   }
 }
 
-void _addClient(
+Future<void> _addClient(
     GlobalKey<FormState> formKey,
     ClientCubit cubit,
     TextEditingController nameController,
     TextEditingController passwordController,
-    BuildContext context) {
-  if (formKey.currentState!.validate()) {
+    BuildContext context) async {
+  if (!formKey.currentState!.validate()) {
+    Navigator.pop(context);
+    return;
+  } else {
+    Navigator.pop(context);
     formKey.currentState!.save();
-
-    cubit.addUsers(
+    ClientCubit.get(context).addUsers(
       UserModel(
         name: nameController.text,
         password: int.parse(passwordController.text),
         numberOfMainPeople: int.parse(cubit.numMainPeopleSelected.toString()),
         numberOfExtraPeople: int.parse(cubit.numExtraPeopleSelected.toString()),
-        priceOfExtraPerople:
-            int.parse(cubit.priceOfExtraPeopleSelected.toString()),
+        price: int.parse(cubit.priceOfExtraPeopleSelected.toString()),
       ),
     );
-    GlobalMethods.navTo(const HomePage(), context);
   }
 }
-
-
-
-//  Column(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         const Text(
-//                           AppStrings.priceOfExtraPeople,
-//                           style: TextStyle(fontSize: 25),
-//                         ),
-//                         Container(
-//                           width: 200,
-//                           height: 60,
-//                           child: DropdownButtonFormField2(
-//                             key: _formKey,
-//                             decoration: InputDecoration(
-//                               isDense: true,
-//                               contentPadding: const EdgeInsets.all(10),
-//                               border: OutlineInputBorder(
-//                                 borderRadius: BorderRadius.circular(15),
-//                               ),
-//                             ),
-//                             hint: const Text('سعر الفرد فى السلع'),
-//                             items: cubit.priceForPersonList.map((e) {
-//                               return DropdownMenuItem(
-//                                 value: e,
-//                                 child: Text(e),
-//                               );
-//                             }).toList(),
-//                             value: cubit.selectedAmount,
-//                             onChanged: (value) {
-//                               cubit.onChangeCustom(value!);
-//                             },
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-                   
