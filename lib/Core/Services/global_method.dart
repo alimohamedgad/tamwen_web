@@ -2,8 +2,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../features/View/Widgets/CustomButton/text_button.dart';
 import '../../features/View/Widgets/Custom_Text/custom_text.dart';
+import '../../features/view/Widgets/CustomButton/text_button.dart';
 
 class GlobalMethods {
   static navTo(Widget newRoute, BuildContext context) {
@@ -49,34 +49,36 @@ class GlobalMethods {
     );
   }
 
-  static Future<void> warningDialog(
-    BuildContext context, {
-    required String content,
-    required String title,
-    required Function() onTap,
-  }) async {
+  static Future<void> warningDialog(BuildContext context,
+      {required String content,
+      required String title,
+      required Function() onTap,
+      bool? showIcon = false}) async {
     // final size = Utils(context).screenSize;
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(title),
+              showIcon! ? const Icon(Icons.logout) : Container(),
             ],
           ),
           content: CustomText(content),
           actions: [
-            CusomtTextButton(
+            CustomTextButton(
               text: 'لا',
+              colorButton: Colors.white,
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
-            CusomtTextButton(
+            CustomTextButton(
               text: 'نعم',
               onPressed: onTap,
+              colorButton: Colors.white,
               color: Colors.red,
             ),
           ],

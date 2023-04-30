@@ -7,8 +7,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tamwen_web/Core/AppColors/app_colors.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
 import 'package:tamwen_web/Core/Services/utils.dart';
+import 'package:tamwen_web/features/Model/product.dart';
 import 'package:tamwen_web/features/View/Screens/Product/update_product.dart';
 import 'package:tamwen_web/features/view/Widgets/custom_image.dart';
+import 'package:tamwen_web/features/view/Widgets/empty_screen.dart';
 
 import '../../../Controller/Product_cubit/product_cubit.dart';
 import '../../../../Core/App_String/app_strings.dart';
@@ -18,6 +20,7 @@ import '../../../model/user.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
 import '../Drawer/FlourScreen/add_flour.dart';
 import 'add_product.dart';
+import 'btm_product.dart';
 import 'filter_product.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -53,8 +56,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
         widget.users!,
         widget.totalPrice ?? 0,
       ),
-      bottomNavigationBar:
-          BottomNavigationBar(totalPriceForOnePerson: totalPriceForOnePerson),
+      bottomNavigationBar: BottomNavigationBarProduct(
+          totalPriceForOnePerson: totalPriceForOnePerson),
       body: Container(
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -62,120 +65,181 @@ class _DetailsScreenState extends State<DetailsScreen> {
             topRight: Radius.circular(35),
           ),
         ),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: screenSize * 0.065,
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColors.white,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: BlocBuilder<ProductCubit, ProductState>(
+          builder: (context, state) {
+            final productCubit = BlocProvider.of<ProductCubit>(context);
+            if (state is GetProductsLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CustomText(' ${AppStrings.name}  ${widget.users?.name}'),
-                  CustomText('شهر :${DateTime.now().month}'),
-                ],
-              ),
-            ),
-            Expanded(
-              child: BlocBuilder<ProductCubit, ProductState>(
-                builder: (context, state) {
-                  final productCubit = BlocProvider.of<ProductCubit>(context);
-
-                  return ListView.builder(
-                    itemCount: productCubit.product.length,
-                    itemBuilder: (context, index) {
-                      var details = productCubit.product[index];
-                      var totalPriceOfQuantityPurchased =
-                          details.price * details.quantity;
-                      return Slidable(
-                        key: UniqueKey(),
-                        startActionPane: ActionPane(
-                          extentRatio: 0.50,
-                          motion: const ScrollMotion(),
-                          children: [
-                            SlidableAction(
-                              onPressed: (context) {
-                                productCubit.deleteProduct(
-                                    widget.users!.id!, details);
-                              },
-                              backgroundColor: const Color(0xFFFE4A49),
-                              foregroundColor: Colors.white,
-                              icon: Icons.delete,
-                              label: AppStrings.remove,
-                            ),
-                            SlidableAction(
-                              onPressed: (context) {
-                                GlobalMethods.navTo(
-                                    UpdateProduct(
-                                        idUser: widget.users?.id,
-                                        details: details,
-                                        productCubit: productCubit),
-                                    context);
-                              },
-                              backgroundColor: AppColors.black,
-                              foregroundColor: Colors.white,
-                              icon: Icons.edit_outlined,
-                              label: AppStrings.edit,
-                            ),
-                          ],
-                        ),
-                        child: Container(
-                          height: 145.h,
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 7),
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.white,
-                                blurRadius: 8,
-                                blurStyle: BlurStyle.outer,
-                                spreadRadius: 1,
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              CustomImage(
-                                image: details.image ?? 'assets/img/white.jpg',
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 4),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomText(
-                                        "${ProductString.productName}${details.nameProduct}"),
-                                    CustomText(
-                                        "${AppStrings.price}${details.price}"),
-                                    CustomText(
-                                        "${AppStrings.totalprice}$totalPriceOfQuantityPurchased"),
-                                    CustomText(
-                                        "${AppStrings.amount}${(details.quantity).toInt()}"),
+                  _buildClientDetailsText(screenSize),
+                  productCubit.product.isNotEmpty
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: productCubit.product.length,
+                            itemBuilder: (context, index) {
+                              final details = productCubit.product[index];
+                              var totalPriceOfQuantityPurchased =
+                                  details.price * details.quantity;
+                              return Container(
+                                height: 145.h,
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 7),
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.white,
+                                      blurRadius: 8,
+                                      blurStyle: BlurStyle.outer,
+                                      spreadRadius: 1,
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                child: Row(
+                                  children: [
+                                    CustomImage(
+                                      image: details.image ??
+                                          'assets/img/white.jpg',
+                                    ),
+                                    _buildProductDetails(
+                                      details,
+                                      totalPriceOfQuantityPurchased,
+                                      productCubit,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      : const Expanded(
+                          child: EmptyScreen(
+                            textEmpty: 'العميل لم يأخد اى منتجات بعد.',
                           ),
                         ),
-                      );
+                ],
+              );
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductDetails(
+    ProductModel details,
+    totalPriceOfQuantityPurchased,
+    ProductCubit productCubit,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText(ProductString.productName + details.nameProduct!),
+              const SizedBox(width: 70),
+              GestureDetector(
+                  onTap: () {
+                    GlobalMethods.navTo(
+                        UpdateProduct(
+                            idUser: widget.users?.id,
+                            details: details,
+                            productCubit: productCubit),
+                        context);
+                  },
+                  child: const Icon(Icons.edit)),
+            ],
+          ),
+          CustomText("${AppStrings.price}${details.price}"),
+          CustomText("${AppStrings.totalPrice}$totalPriceOfQuantityPurchased"),
+          Row(
+            children: [
+              CustomText("${AppStrings.amount}${(details.quantity).toInt()}"),
+              const SizedBox(width: 150),
+              GestureDetector(
+                onTap: () async {
+                  await GlobalMethods.warningDialog(
+                    context,
+                    content: 'هل تريد حذف هذا المنتج ؟',
+                    title: '',
+                    onTap: () async {
+                      Navigator.pop(context);
+                      await productCubit.deleteProduct(
+                          widget.users!.id!, details);
                     },
                   );
                 },
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  ActionPane _buildActionPane(ProductCubit productCubit, ProductModel details) {
+    return ActionPane(
+      extentRatio: 0.50,
+      motion: const ScrollMotion(),
+      children: [
+        SlidableAction(
+          onPressed: (context) {
+            productCubit.deleteProduct(widget.users!.id!, details);
+          },
+          backgroundColor: const Color(0xFFFE4A49),
+          foregroundColor: Colors.white,
+          icon: Icons.delete,
+          label: AppStrings.remove,
         ),
+        SlidableAction(
+          onPressed: (context) {
+            GlobalMethods.navTo(
+                UpdateProduct(
+                    idUser: widget.users?.id,
+                    details: details,
+                    productCubit: productCubit),
+                context);
+          },
+          backgroundColor: AppColors.black,
+          foregroundColor: Colors.white,
+          icon: Icons.edit_outlined,
+          label: AppStrings.edit,
+        ),
+      ],
+    );
+  }
+
+  Container _buildClientDetailsText(double screenSize) {
+    return Container(
+      width: double.infinity,
+      height: screenSize * 0.065,
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: AppColors.white,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CustomText(' ${AppStrings.name}  ${widget.users?.name}'),
+          CustomText('شهر :${DateTime.now().month}'),
+        ],
       ),
     );
   }
@@ -186,11 +250,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return totalPriceForOnePerson;
   }
 
-  AppBar detailsAppbar(
-    BuildContext context,
-    UserModel item,
-    int totalPrice,
-  ) {
+  AppBar detailsAppbar(BuildContext context, UserModel item, int totalPrice) {
     return AppBar(
       leading: const BackButton(),
       elevation: 0.0,
@@ -228,64 +288,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 break;
 
               case PopMenuValue.month:
-                GlobalMethods.navTo(FiterProduct(users: item), context);
+                GlobalMethods.navTo(FilterProduct(users: item), context);
                 break;
             }
           },
         ),
       ],
-    );
-  }
-}
-
-class BottomNavigationBar extends StatelessWidget {
-  const BottomNavigationBar({
-    Key? key,
-    required this.totalPriceForOnePerson,
-  }) : super(key: key);
-
-  final int totalPriceForOnePerson;
-
-  @override
-  Widget build(BuildContext context) {
-    final productCubit = BlocProvider.of<ProductCubit>(context);
-
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-      title: Container(
-        alignment: Alignment.bottomCenter,
-        height: 70.h,
-        padding: const EdgeInsets.only(top: 7, right: 7),
-        margin: const EdgeInsets.symmetric(horizontal: 6),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(
-              color: AppColors.white,
-              blurRadius: 8,
-              blurStyle: BlurStyle.outer,
-              spreadRadius: 1,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomText(
-              "${ProductString.totalPrice}"
-              "  ${productCubit.getTotalPrice(productCubit.product)} جنية",
-              color: AppColors.white,
-            ),
-            CustomText(
-              "${ProductString.theRemainderOftheTotalPrice}"
-              "  ${totalPriceForOnePerson - productCubit.getTotalPrice(productCubit.product)}  جنية",
-              color: AppColors.white,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

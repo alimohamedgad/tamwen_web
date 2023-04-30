@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tamwen_web/features/Controller/Flour_Cubit/flour_cubit.dart';
 
 import '../../../../../Core/dumy_data.dart';
 import '../../../../Model/flour.dart';
-import '../../../../controller/Flour_Cubit/flour_cubit.dart';
 import '../../../../model/user.dart';
 import '../../../Widgets/CustomButton/custom_button.dart';
 import '../../../Widgets/CustomDropDown/custom_drop_button.dart';
@@ -12,10 +13,12 @@ import '../../../Widgets/custom_text_field.dart';
 class UpdateFlour extends StatefulWidget {
   final UserModel? users;
   final FlourModel? flourModel;
+  final FlourCubit flourCubit;
   const UpdateFlour({
     Key? key,
     this.users,
     this.flourModel,
+    required this.flourCubit,
   }) : super(key: key);
 
   @override
@@ -25,17 +28,16 @@ class UpdateFlour extends StatefulWidget {
 class _UpdateFlourState extends State<UpdateFlour> {
   @override
   void initState() {
-    var cubit = FlourCubit.get(context);
-
-    cubit.selectedAmountFlour = widget.flourModel!.amountFlour.toString();
-    cubit.selectRound = widget.flourModel!.round;
     super.initState();
+
+    BlocProvider.of<FlourCubit>(context).selectedAmountFlour =
+        widget.flourModel!.amountFlour.toString();
+    BlocProvider.of<FlourCubit>(context).selectRound = widget.flourModel!.round;
   }
 
   @override
   Widget build(BuildContext context) {
     final cubit = FlourCubit.get(context);
-
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -52,7 +54,7 @@ class _UpdateFlourState extends State<UpdateFlour> {
               const SizedBox(height: 10),
               CustomDropDownField(
                 hint: 'اختر كمية الدقيق',
-                selectVaule: cubit.selectedAmountFlour.toString(),
+                selectValue: cubit.selectedAmountFlour.toString(),
                 items: amountFlourList
                     .map((e) => DropdownMenuItem(
                           value: "$e",
@@ -66,7 +68,7 @@ class _UpdateFlourState extends State<UpdateFlour> {
               const SizedBox(height: 10),
               CustomDropDownField(
                 hint: 'اختر الدور ',
-                selectVaule: cubit.selectRound,
+                selectValue: cubit.selectRound,
                 items: roundList
                     .map((e) => DropdownMenuItem(
                           value: e.round,
@@ -78,25 +80,36 @@ class _UpdateFlourState extends State<UpdateFlour> {
                 },
               ),
               const SizedBox(height: 10),
-              CustomButton(
-                onPressed: () {
-                  cubit.updateFlour(
-                    FlourModel(
-                      id: widget.flourModel?.id,
-                      nameClient: widget.flourModel!.nameClient,
-                      round: cubit.selectRound.toString(),
-                      amountFlour:
-                          int.parse(cubit.selectedAmountFlour.toString()),
-                    ),
-                  );
-                  Navigator.pop(context);
-                },
-                text: 'تحديث  الدقيق',
-              ),
+              _buildUpdateFlour(cubit),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildUpdateFlour(FlourCubit cubit) {
+    return BlocBuilder<FlourCubit, FlourState>(
+      builder: (context, state) {
+        if (state is UpdateFlourLoading) {
+          return const CircularProgressIndicator();
+        } else {
+          return CustomButton(
+            onPressed: () {
+              cubit.updateFlour(
+                FlourModel(
+                  id: widget.flourModel?.id,
+                  nameClient: widget.flourModel!.nameClient,
+                  round: cubit.selectRound.toString(),
+                  amountFlour: int.parse(cubit.selectedAmountFlour.toString()),
+                ),
+              );
+              Navigator.pop(context);
+            },
+            text: 'تحديث  الدقيق',
+          );
+        }
+      },
     );
   }
 }

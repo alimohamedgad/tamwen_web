@@ -27,13 +27,13 @@ class TotalCardsScreen extends StatelessWidget {
           return InkWell(
             onTap: () {
               GlobalMethods.navTo(
-                  TotalPeopeEqualOne(isEqualTo: cardItem.isEqualTo), context);
+                  TotalPeopleEqualOne(isEqualTo: cardItem.isEqualTo), context);
             },
             child: Card(
               color: AppColors.textColor,
               child: ListTile(
                 title: CustomText(
-                  AppStrings.totlePeople(cardItem.numberPerosn),
+                  AppStrings.totlePeople(cardItem.numberPerson),
                 ),
                 trailing: CustomText(
                   "${getTotalPerson(users, cardItem.numberPersonInList)}",
@@ -76,19 +76,19 @@ getTotalPerson(List<UserModel> detailsList, int number) {
 
 List<CardModel> cardModel = [
   const CardModel()
-      .copyWith(numberPerosn: 1, numberPersonInList: 1, isEqualTo: 1),
+      .copyWith(numberPerson: 1, numberPersonInList: 1, isEqualTo: 1),
   const CardModel()
-      .copyWith(numberPerosn: 2, numberPersonInList: 2, isEqualTo: 2),
+      .copyWith(numberPerson: 2, numberPersonInList: 2, isEqualTo: 2),
   const CardModel()
-      .copyWith(numberPerosn: 3, numberPersonInList: 3, isEqualTo: 3),
+      .copyWith(numberPerson: 3, numberPersonInList: 3, isEqualTo: 3),
   const CardModel()
-      .copyWith(numberPerosn: 4, numberPersonInList: 4, isEqualTo: 4),
+      .copyWith(numberPerson: 4, numberPersonInList: 4, isEqualTo: 4),
   const CardModel()
-      .copyWith(numberPerosn: 5, numberPersonInList: 5, isEqualTo: 5),
+      .copyWith(numberPerson: 5, numberPersonInList: 5, isEqualTo: 5),
   const CardModel()
-      .copyWith(numberPerosn: 6, numberPersonInList: 6, isEqualTo: 6),
+      .copyWith(numberPerson: 6, numberPersonInList: 6, isEqualTo: 6),
   const CardModel()
-      .copyWith(numberPerosn: 7, numberPersonInList: 7, isEqualTo: 7),
+      .copyWith(numberPerson: 7, numberPersonInList: 7, isEqualTo: 7),
   const CardModel()
-      .copyWith(numberPerosn: 8, numberPersonInList: 8, isEqualTo: 8),
+      .copyWith(numberPerson: 8, numberPersonInList: 8, isEqualTo: 8),
 ];

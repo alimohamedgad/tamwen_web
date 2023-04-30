@@ -2,10 +2,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/App_String/app_strings.dart';
-import '../../../Controller/People_Cubit/people_state.dart';
+import '../../../controller/client_cubit/client_cubit.dart';
+import '../../../controller/client_cubit/client_state.dart';
 import '../../../model/user.dart';
 import '../Custom_Text/custom_text.dart';
 import 'search_widget.dart';

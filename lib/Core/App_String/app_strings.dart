@@ -8,7 +8,7 @@ class AppStrings {
   static const String totalPriceForExtricaPrice = 'سلع : ';
   static const String imageProduct = 'صورة المنتج   :  ';
   static const String price = '  سعر المنتج الواحد  :  ';
-  static const String totalprice = ' السعر الكلى  :  ';
+  static const String totalPrice = ' السعر الكلى  :  ';
   static const String amount = ' الكمية :  ';
   static const String theNameIsTriple = 'ادخل الاسم ثلاثي';
   static const String numberOfIndividualsField = 'تموين';
@@ -25,7 +25,7 @@ class AppStrings {
   static const String homePage = 'الصفحه الرئيسية';
   static const String otherAccounts = 'حسابات اخرى';
 
-  static const String name = ' الاسم :';
+  static const String name = ' الاسم : ';
   static const String thisListIsEmpty = 'هذه القائمة فارغة';
 
   static String totlePeople(int number) => 'العدد الكلى ل $number افراد ';

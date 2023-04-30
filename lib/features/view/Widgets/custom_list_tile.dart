@@ -54,6 +54,7 @@ class CustomListTileImageTrailing extends StatelessWidget {
       title: CustomText(
         text,
         color: textColor,
+
         // style: TextStyle(color: textColor),
       ),
       trailing: Image.asset(

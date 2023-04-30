@@ -30,6 +30,8 @@ class DeleteProductFaliure extends ProductState {}
 
 class ProductUpdateSuccess extends ProductState {}
 
+class ProductUpdateLoading extends ProductState {}
+
 class ProductUpdateFailure extends ProductState {}
 
 class Product extends ProductState {}

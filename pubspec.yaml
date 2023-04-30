@@ -7,25 +7,20 @@ environment:
 dependencies:
     awesome_dialog: ^3.0.2
     cloud_firestore: null
-    collapsible_sidebar: ^2.0.3+2
     conditional_builder_null_safety: ^0.0.6
     cupertino_icons: ^1.0.2
-    dartz: ^0.10.1
     dropdown_button2: ^1.9.2
     easy_localization: ^3.0.1
     equatable: ^2.0.5
-    filter_list: ^1.0.2
     firebase_auth: ^4.2.5
     firebase_core: ^2.4.1
     flutter:
         sdk: flutter
     flutter_bloc: ^8.1.1
     flutter_firebase_firestore: ^0.0.1
-    flutter_outreach: ^0.0.16
     flutter_screenutil: ^5.6.1
     flutter_slidable: ^2.0.0
     flutter_staggered_animations: ^1.1.1
-    get_it: ^7.3.0
     page_transition: ^2.0.9
     shimmer: ^2.0.0
 dev_dependencies:

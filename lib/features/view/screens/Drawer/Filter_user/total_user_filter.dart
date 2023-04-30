@@ -6,28 +6,29 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:tamwen_web/Core/App_String/app_strings.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
+import 'package:tamwen_web/features/controller/client_cubit/client_cubit.dart';
+import 'package:tamwen_web/features/controller/client_cubit/client_state.dart';
+import 'package:tamwen_web/features/model/user.dart';
 
 import '../../../../../Core/AppColors/app_colors.dart';
-import '../../../../Controller/People_Cubit/client_cubit.dart';
-import '../../../../Controller/People_Cubit/people_state.dart';
 import '../../../Widgets/Custom_Text/custom_text.dart';
 import '../../../Widgets/total_price_for_persons.dart';
 import '../../Home/update_client.dart';
 import '../../Product/product_details.dart';
 
-class TotalPeopeEqualOne extends StatefulWidget {
+class TotalPeopleEqualOne extends StatefulWidget {
   final Object isEqualTo;
 
-  const TotalPeopeEqualOne({
+  const TotalPeopleEqualOne({
     Key? key,
     required this.isEqualTo,
   }) : super(key: key);
 
   @override
-  State<TotalPeopeEqualOne> createState() => _TotalPeopeEqualOneState();
+  State<TotalPeopleEqualOne> createState() => _TotalPeopleEqualOneState();
 }
 
-class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
+class _TotalPeopleEqualOneState extends State<TotalPeopleEqualOne> {
   @override
   void initState() {
     ClientCubit.get(context).getDifferentUser(widget.isEqualTo);
@@ -56,8 +57,8 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
                 child: ListView.builder(
                   itemCount: clientCubit.differentUser.length,
                   itemBuilder: (context, index) {
-                    final user = clientCubit.differentUser[index];
-                    var mainPrice = user.numberOfMainPeople;
+                    UserModel user = clientCubit.differentUser[index];
+                    final mainPrice = user.numberOfMainPeople;
                     var totlePrice = 0;
                     totlePrice =
                         totalPriceForMainPersons(mainPrice, totlePrice);
@@ -139,7 +140,7 @@ class _TotalPeopeEqualOneState extends State<TotalPeopeEqualOne> {
                                       CustomText(totlePrice.toString()),
                                       const Spacer(),
                                       CustomText(
-                                        "${user.priceOfExtraPerople * user.numberOfExtraPeople}",
+                                        "${user.price * user.numberOfExtraPeople}",
                                       ),
                                     ],
                                   ),

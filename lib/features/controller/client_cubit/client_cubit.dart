@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Core/Services/utils.dart';
-import '../../Controller/People_Cubit/people_state.dart';
 import '../../../Core/AppColors/app_colors.dart';
 import '../../model/user.dart';
+import 'client_state.dart';
 
 class ClientCubit extends Cubit<ClientState> {
   ClientCubit() : super(PeopleInitial());
@@ -28,12 +28,12 @@ class ClientCubit extends Cubit<ClientState> {
       if (kDebugMode) {
         print(e.toString());
       }
-      emit(UsersFaliure());
+      emit(UsersFailure());
     }
   }
 
   void getDifferentUser(Object? isEqualTo) {
-    emit(GetDefrenetUserLoading());
+    emit(GetDeferentUserLoading());
     try {
       _db
           .where('numberOfMainPeople', isEqualTo: isEqualTo)
@@ -44,13 +44,13 @@ class ClientCubit extends Cubit<ClientState> {
         for (var user in event.docs) {
           differentUser.add(UserModel.fromJson(user));
         }
-        emit(GetDefrenetUserSuccess());
+        emit(GetDeferentUserSuccess());
       });
     } on Exception catch (e) {
       if (kDebugMode) {
         print(e.toString());
       }
-      emit(GetDefrenetUserFailure());
+      emit(GetDeferentUserFailure());
     }
   }
 

@@ -8,7 +8,7 @@ import 'package:tamwen_web/Core/AppColors/app_colors.dart';
 import 'package:tamwen_web/Core/App_String/app_strings.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
 
-import '../../../Controller/People_Cubit/client_cubit.dart';
+import '../../../controller/client_cubit/client_cubit.dart';
 import '../../../model/user.dart';
 import '../../Screens/Home/update_client.dart';
 import '../../screens/Product/product_details.dart';

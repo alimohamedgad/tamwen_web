@@ -36,7 +36,7 @@ class LoginCubit extends Cubit<LoginState> {
   Future signOut() async {
     try {
       await auth.signOut();
-      Utils.snackBar(AuthString.signOut, AppColors.green);
+      Utils.snackBar(AuthString.successSignOut, AppColors.green);
       emit(SignOutSuccess());
     } catch (e) {
       emit(const SignOutFailure(errorMessage: 'المدخلات غير صحيحه'));

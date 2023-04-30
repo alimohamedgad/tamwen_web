@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Controller/People_Cubit/client_cubit.dart';
+import '../../../controller/client_cubit/client_cubit.dart';
 import '../Drawer/drawer_screens.dart';
 
 class AdminPanel extends StatelessWidget {

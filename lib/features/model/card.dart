@@ -2,28 +2,28 @@
 import 'package:equatable/equatable.dart';
 
 class CardModel extends Equatable {
-  final int numberPerosn;
+  final int numberPerson;
   final int numberPersonInList;
   final Object isEqualTo;
 
   const CardModel({
-    this.numberPerosn = 0,
+    this.numberPerson = 0,
     this.numberPersonInList = 0,
     this.isEqualTo = 0,
   });
 
   CardModel copyWith({
-    int? numberPerosn,
+    int? numberPerson,
     int? numberPersonInList,
     Object? isEqualTo,
   }) {
     return CardModel(
-      numberPerosn: numberPerosn ?? this.numberPerosn,
+      numberPerson: numberPerson ?? this.numberPerson,
       numberPersonInList: numberPersonInList ?? this.numberPersonInList,
       isEqualTo: isEqualTo ?? this.isEqualTo,
     );
   }
 
   @override
-  List<Object> get props => [numberPerosn, numberPersonInList, isEqualTo];
+  List<Object> get props => [numberPerson, numberPersonInList, isEqualTo];
 }

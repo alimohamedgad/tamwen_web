@@ -5,14 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tamwen_web/Core/App_String/login_string.dart';
 import 'package:tamwen_web/Core/App_String/product_string.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
+import 'package:tamwen_web/features/model/user.dart';
 
 import '../../../Controller/Login_Cubit/login_cubit.dart';
-import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/App_String/app_strings.dart';
+import '../../../controller/client_cubit/client_cubit.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
 import '../../Widgets/custom_list_tile.dart';
 import '../Home/add_client.dart';
+import '../Home/card_screen.dart';
 import '../auth/login_screen.dart';
 import 'FlourScreen/flour_screen.dart';
 import 'Product_Screen/products_screen.dart';
@@ -79,8 +81,8 @@ class DrawerBody extends StatelessWidget {
             icon: Icons.people_alt,
             text: AppStrings.totalPerosns,
             onTap: () {
-              // GlobalMethods.navTo(
-              //     TotalCardsScreen(users: clientCubit.users), context);
+              GlobalMethods.navTo(
+                  TotalCardsScreen(users: clientCubit.users), context);
             },
           ),
           const Divider(color: AppColors.white),
@@ -106,15 +108,18 @@ class DrawerBody extends StatelessWidget {
             icon: Icons.logout_outlined,
             text: AuthString.signOut,
             onTap: () async {
-              var loginCubit = BlocProvider.of<LoginCubit>(context);
+              final loginCubit = BlocProvider.of<LoginCubit>(context);
               await GlobalMethods.warningDialog(
                 context,
                 content: 'هل تريد تسجيل الخروج ؟',
-                title: '',
+                title: AuthString.signOut,
                 onTap: () async {
-                  loginCubit.signOut().then((value) {
-                    GlobalMethods.navRemoveUntil(const LoginScreen(), context);
-                  });
+                  loginCubit.signOut().then(
+                    (value) {
+                      GlobalMethods.navRemoveUntil(
+                          const LoginScreen(), context);
+                    },
+                  );
                 },
               );
             },

@@ -5,12 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../Core/dumy_data.dart';
 import '../../../../Core/Services/utils.dart';
-import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../../Core/AppColors/app_colors.dart';
 import '../../../../Core/App_String/product_string.dart';
 import '../../../../Core/App_String/app_strings.dart';
 import '../../../../Core/Services/global_method.dart';
-import '../../../Controller/People_Cubit/people_state.dart';
+import '../../../controller/client_cubit/client_cubit.dart';
+import '../../../controller/client_cubit/client_state.dart';
 import '../../../model/user.dart';
 import '../../Widgets/CustomButton/custom_button.dart';
 import '../../Widgets/CustomDropDown/custom_drop_button.dart';
@@ -46,9 +46,7 @@ class _AddClientState extends State<AddClient> {
     final cubit = ClientCubit.get(context);
 
     return BlocListener<ClientCubit, ClientState>(
-      listenWhen: (previous, current) {
-        return previous != current;
-      },
+      listenWhen: (previous, current) => previous != current,
       listener: (context, state) {
         if (state is AddUserLoading) {
           GlobalMethods.showProgressIndicator(context);
@@ -66,9 +64,9 @@ class _AddClientState extends State<AddClient> {
           backgroundColor: AppColors.primaryColor,
           leading: const BackButton(color: AppColors.white),
         ),
-        body: Form(
-          key: formKey,
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Form(
+            key: formKey,
             child: Padding(
               padding: const EdgeInsets.only(top: 100, left: 5, right: 5),
               child: Column(
@@ -100,7 +98,7 @@ class _AddClientState extends State<AddClient> {
                   ),
                   SizedBox(height: 10.h),
                   CustomDropDownField(
-                    selectVaule: cubit.numMainPeopleSelected,
+                    selectValue: cubit.numMainPeopleSelected,
                     hint: AppStrings.numberOfMainPeople,
                     items: mainPeopleList.map((e) {
                       return DropdownMenuItem(
@@ -117,7 +115,7 @@ class _AddClientState extends State<AddClient> {
                   ),
                   SizedBox(height: 10.h),
                   CustomDropDownField(
-                    selectVaule: cubit.numExtraPeopleSelected,
+                    selectValue: cubit.numExtraPeopleSelected,
                     hint: AppStrings.numberOfExtraPeople,
                     items: listFromZeroTo9.map((e) {
                       return DropdownMenuItem(
@@ -134,7 +132,7 @@ class _AddClientState extends State<AddClient> {
                   ),
                   SizedBox(height: 10.h),
                   CustomDropDownField(
-                    selectVaule: cubit.priceOfExtraPeopleSelected,
+                    selectValue: cubit.priceOfExtraPeopleSelected,
                     hint: AppStrings.priceOfExtraPeople,
                     items: priceForOnePerson.map((e) {
                       return DropdownMenuItem(
@@ -153,8 +151,8 @@ class _AddClientState extends State<AddClient> {
                   CustomButton(
                     onPressed: () {
                       GlobalMethods.showProgressIndicator(context);
-                      _addClient(formKey, cubit, nameController,
-                          passwordController, context);
+                      _addClient(cubit);
+                      Navigator.pop(context);
                     },
                     text: AppStrings.addNewUser,
                   ),
@@ -166,28 +164,23 @@ class _AddClientState extends State<AddClient> {
       ),
     );
   }
-}
 
-Future<void> _addClient(
-    GlobalKey<FormState> formKey,
-    ClientCubit cubit,
-    TextEditingController nameController,
-    TextEditingController passwordController,
-    BuildContext context) async {
-  if (!formKey.currentState!.validate()) {
-    Navigator.pop(context);
-    return;
-  } else {
-    Navigator.pop(context);
-    formKey.currentState!.save();
-    ClientCubit.get(context).addUsers(
-      UserModel(
-        name: nameController.text,
-        password: int.parse(passwordController.text),
-        numberOfMainPeople: int.parse(cubit.numMainPeopleSelected.toString()),
-        numberOfExtraPeople: int.parse(cubit.numExtraPeopleSelected.toString()),
-        price: int.parse(cubit.priceOfExtraPeopleSelected.toString()),
-      ),
-    );
+  Future<void> _addClient(ClientCubit cubit) async {
+    if (!formKey.currentState!.validate()) {
+      Navigator.pop(context);
+      return;
+    } else {
+      formKey.currentState!.save();
+      ClientCubit.get(context).addUsers(
+        UserModel(
+          name: nameController.text,
+          password: int.parse(passwordController.text),
+          numberOfMainPeople: int.parse(cubit.numMainPeopleSelected.toString()),
+          numberOfExtraPeople:
+              int.parse(cubit.numExtraPeopleSelected.toString()),
+          price: int.parse(cubit.priceOfExtraPeopleSelected.toString()),
+        ),
+      );
+    }
   }
 }

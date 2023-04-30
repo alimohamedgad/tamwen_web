@@ -32,12 +32,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
       appBar: AppBar(),
       body: BlocBuilder<ProductCubit, ProductState>(
         builder: (context, state) {
-          var productCubit = BlocProvider.of<ProductCubit>(context);
+          final productCubit = BlocProvider.of<ProductCubit>(context);
 
           return ListView.builder(
             itemCount: productCubit.filterProductName.length,
             itemBuilder: (context, index) {
-              var product = productCubit.filterProductName[index];
+              final product = productCubit.filterProductName[index];
               return Card(
                 child: ListTile(
                   title: CustomText('${product.nameProduct}'),

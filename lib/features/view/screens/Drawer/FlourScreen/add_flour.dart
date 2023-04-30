@@ -35,7 +35,7 @@ class AddFlourScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 CustomDropDownField(
                   hint: 'اختر كمية الدقيق',
-                  selectVaule: flourCubit.selectedAmountFlour,
+                  selectValue: flourCubit.selectedAmountFlour,
                   items: amountFlourList
                       .map((e) => DropdownMenuItem(
                             value: '$e',
@@ -49,7 +49,7 @@ class AddFlourScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 CustomDropDownField(
                   hint: 'اختر الدور ',
-                  selectVaule: flourCubit.selectRound,
+                  selectValue: flourCubit.selectRound,
                   items: roundList
                       .map((e) => DropdownMenuItem(
                             value: e.round,

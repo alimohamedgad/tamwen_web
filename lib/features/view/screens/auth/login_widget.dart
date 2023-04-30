@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../Admin/home_admin.dart';
 import '../../../Controller/Login_Cubit/login_cubit.dart';
 
 import '../../../../Core/AppColors/app_colors.dart';
@@ -47,8 +48,13 @@ class _LoginWidgetState extends State<LoginWidget> {
           Utils.snackBar(state.errorMessage, AppColors.black);
         }
         if (state is LoginSuccess) {
-          Utils.snackBar(AuthString.login, AppColors.black);
-          GlobalMethods.navTo(const HomePage(), context);
+          if (emailController.text == 'admin@gmail.com') {
+            Utils.snackBar(AuthString.login, AppColors.black);
+            GlobalMethods.navTo(const AdminPanel(), context);
+          } else {
+            Utils.snackBar(AuthString.login, AppColors.black);
+            GlobalMethods.navTo(const HomePage(), context);
+          }
         }
       },
       child: Scaffold(

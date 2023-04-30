@@ -8,7 +8,7 @@ class InsertState extends ClientState {}
 
 class UsersLoading extends ClientState {}
 
-class UsersFaliure extends ClientState {}
+class UsersFailure extends ClientState {}
 
 class UsersSuccess extends ClientState {}
 
@@ -28,8 +28,8 @@ class DeleteUserSuccess extends ClientState {}
 
 class DeleteUserFailure extends ClientState {}
 
-class GetDefrenetUserSuccess extends ClientState {}
+class GetDeferentUserSuccess extends ClientState {}
 
-class GetDefrenetUserLoading extends ClientState {}
+class GetDeferentUserLoading extends ClientState {}
 
-class GetDefrenetUserFailure extends ClientState {}
+class GetDeferentUserFailure extends ClientState {}

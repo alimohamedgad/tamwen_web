@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tamwen_web/Core/Services/global_method.dart';
+import 'package:tamwen_web/features/controller/client_cubit/client_cubit.dart';
+import 'package:tamwen_web/features/controller/client_cubit/client_state.dart';
 import 'package:tamwen_web/features/view/screens/Home/home_page.dart';
 
 import '../../../../Core/AppColors/app_colors.dart';
@@ -10,8 +12,6 @@ import '../../../../Core/dumy_data.dart';
 import '../../../../Core/Services/utils.dart';
 import '../../../../Core/App_String/app_strings.dart';
 import '../../../../Core/App_String/product_string.dart';
-import '../../../Controller/People_Cubit/client_cubit.dart';
-import '../../../Controller/People_Cubit/people_state.dart';
 import '../../../model/user.dart';
 import '../../Widgets/CustomButton/custom_button.dart';
 import '../../Widgets/CustomDropDown/custom_drop_button.dart';
@@ -101,7 +101,7 @@ class _UpdateUserState extends State<UpdateUser> {
                   ),
                   SizedBox(height: 10.h),
                   CustomDropDownField(
-                    selectVaule: cubit.numMainPeopleSelected,
+                    selectValue: cubit.numMainPeopleSelected,
                     hint: AppStrings.numberOfMainPeople,
                     items: listFromZeroTo9.map((e) {
                       return DropdownMenuItem(
@@ -118,7 +118,7 @@ class _UpdateUserState extends State<UpdateUser> {
                   ),
                   SizedBox(height: 10.h),
                   CustomDropDownField(
-                    selectVaule: cubit.numExtraPeopleSelected,
+                    selectValue: cubit.numExtraPeopleSelected,
                     hint: AppStrings.numberOfExtraPeople,
                     items: listFromZeroTo9.map((e) {
                       return DropdownMenuItem(
@@ -135,7 +135,7 @@ class _UpdateUserState extends State<UpdateUser> {
                   ),
                   SizedBox(height: 10.h),
                   CustomDropDownField(
-                    selectVaule: cubit.priceOfExtraPeopleSelected,
+                    selectValue: cubit.priceOfExtraPeopleSelected,
                     hint: AppStrings.priceOfExtraPeople,
                     items: priceForOnePerson.map((e) {
                       return DropdownMenuItem(

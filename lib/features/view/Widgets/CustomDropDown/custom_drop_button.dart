@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class CustomDropDownField extends StatelessWidget {
   final void Function(Object?)? onChange;
   final String hint;
-  final Object? selectVaule;
+  final Object? selectValue;
   final List<DropdownMenuItem<Object>>? items;
   final Key? keyDropDown;
   final String? Function(Object?)? validator;
@@ -14,7 +14,7 @@ class CustomDropDownField extends StatelessWidget {
     Key? key,
     this.onChange,
     required this.hint,
-    required this.selectVaule,
+    required this.selectValue,
     required this.items,
     this.keyDropDown,
     this.validator,
@@ -52,7 +52,7 @@ class CustomDropDownField extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          value: selectVaule,
+          value: selectValue,
           items: items,
           onChanged: onChange,
         ),

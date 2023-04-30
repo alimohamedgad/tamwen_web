@@ -62,14 +62,13 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  Future addProduct(ProductModel model, String id) async {
+  Future<void> addProduct(ProductModel model, String id) async {
     emit(ProductAddLoading());
-    final docuser = _db.doc(id).collection('products').doc();
-    model.id = docuser.id;
+    final document = _db.doc(id).collection('products').doc();
+    model.id = document.id;
 
     try {
-      await docuser.set(model.toJsonDoc());
-      Utils.snackBar('لقد قمت ب أضافة منتح جديد', AppColors.green);
+      await document.set(model.toJsonDoc());
       emit(ProductAddSuccess());
     } catch (e) {
       Utils.snackBar(e.toString(), AppColors.red);
@@ -77,9 +76,14 @@ class ProductCubit extends Cubit<ProductState> {
     }
   }
 
-  deleteProduct(String id, ProductModel details) {
+  Future<void> deleteProduct(String id, ProductModel details) {
     emit(DeleteProductLoading());
-    _db.doc(id).collection('products').doc(details.id).delete().then((value) {
+    return _db
+        .doc(id)
+        .collection('products')
+        .doc(details.id)
+        .delete()
+        .then((value) {
       Utils.snackBar(
           "لقد قمت ب حذف ${details.nameProduct} من القائمة  ", AppColors.red);
       emit(DeleteProductSuccess());
@@ -90,6 +94,7 @@ class ProductCubit extends Cubit<ProductState> {
   }
 
   Future updateProduct(ProductModel productModel, String userID) async {
+    emit(ProductUpdateLoading());
     final docRef = _db.doc(userID).collection('products').doc(productModel.id);
     try {
       await docRef.update(productModel.toJsonDoc());

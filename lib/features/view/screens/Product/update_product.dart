@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:tamwen_web/Core/App_String/app_strings.dart';
 
 import '../../../../Core/dumy_data.dart';
-import '../../../Controller/People_Cubit/client_cubit.dart';
 import '../../../../Core/App_String/product_string.dart';
 import '../../../Controller/Product_cubit/product_cubit.dart';
 import '../../../Model/product.dart';
+import '../../../controller/client_cubit/client_cubit.dart';
 import '../../Widgets/CustomButton/custom_button.dart';
 import '../../Widgets/CustomDropDown/custom_drop_button.dart';
 import '../../Widgets/Custom_Text/custom_text.dart';
@@ -66,7 +66,7 @@ class _UpdateProductState extends State<UpdateProduct> {
             child: Column(
               children: [
                 CustomDropDownField(
-                  selectVaule: cubit.selectedProductName,
+                  selectValue: cubit.selectedProductName,
                   hint: ProductString.choiceNameProduct,
                   items: dumyProduct.map((e) {
                     return DropdownMenuItem(
@@ -89,7 +89,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                     }
                     return null;
                   },
-                  selectVaule: cubit.selectedImage,
+                  selectValue: cubit.selectedImage,
                   hint: ProductString.choiceProductImage,
                   items: imageWithNameProductList.map((e) {
                     return DropdownMenuItem(
@@ -113,8 +113,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                 ),
                 const SizedBox(height: 10),
                 CustomDropDownField(
-                  selectVaule: cubit.selectedQuantite,
-                  hint: ProductString.choiceQuantite,
+                  selectValue: cubit.selectedQuantite,
+                  hint: ProductString.choiceQuantity,
                   items: quantityList.map((e) {
                     return DropdownMenuItem(
                       value: e,

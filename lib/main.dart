@@ -3,15 +3,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'features/view/screens/Admin/home_admin.dart';
 import 'Core/Services/utils.dart';
 import 'features/Controller/Login_Cubit/login_cubit.dart';
 import 'Core/Theme/theme_light.dart';
 import 'Core/firebase_const.dart';
 import 'features/Controller/Flour_Cubit/flour_cubit.dart';
-import 'features/Controller/People_Cubit/client_cubit.dart';
 import 'features/Controller/Product_cubit/product_cubit.dart';
 import 'features/View/Screens/Home/home_page.dart';
 import 'features/View/Screens/auth/login_screen.dart';
+import 'features/controller/client_cubit/client_cubit.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -48,7 +49,7 @@ class TamwenApp extends StatelessWidget {
           BlocProvider(
             create: (BuildContext context) => LoginCubit(),
           ),
-          BlocProvider(
+          BlocProvider<FlourCubit>(
             create: (BuildContext context) => FlourCubit(),
           ),
         ],
@@ -59,10 +60,22 @@ class TamwenApp extends StatelessWidget {
           scaffoldMessengerKey: Utils.messengerKey,
           debugShowCheckedModeBanner: false,
           theme: themeDataLight(),
-          // home: LoginScreen(),
-          home: user == null ? const LoginScreen() : const HomePage(),
+          home: user == null ? const LoginScreen() : const AdminScreen(),
         ),
       ),
     );
+  }
+}
+
+class AdminScreen extends StatelessWidget {
+  const AdminScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (user!.email == 'admin@gmail.com') {
+      return const AdminPanel();
+    } else {
+      return const HomePage();
+    }
   }
 }

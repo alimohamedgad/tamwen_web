@@ -1,6 +1,6 @@
 class ProductString {
   static const String choiceProductImage = 'اختر صورة المنتج';
-  static const String choiceQuantite = 'اختر كمية المنتج';
+  static const String choiceQuantity = 'اختر كمية المنتج';
   static const String choiceNameProduct = 'اختر اسم المنتج';
   static const String amountFloat = 'كمية الدقيق :  ';
   static const String products = 'المنتجات';
